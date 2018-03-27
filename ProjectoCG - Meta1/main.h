@@ -33,7 +33,7 @@ GLint		wScreen=800, hScreen=600;		//.. janela (pixeis)
 GLfloat		xC=10.0, yC=10.0, zC=10.0;		//.. Mundo  (unidades mundo)
 
 // Variáveis do observador
-GLfloat  rVisao=10, aVisao=0.5*PI, incVisao=0.05;
+GLfloat  rVisao=5, aVisao=0.5*PI, incVisao=0.05;
 GLfloat  obsP[] ={static_cast<GLfloat>(rVisao*cos(aVisao)), 3.0, static_cast<GLfloat>(rVisao*sin(aVisao))};
 GLfloat coordZ;
 GLfloat angZoom=90;
@@ -42,12 +42,14 @@ GLfloat x_inc = 0;
 GLfloat ang_inc = 0;
 
 
-GLfloat tam = 2;
+GLfloat tam = 10;
 
 static GLuint cima[] = {8,11, 10,  9};
 static GLuint esquerda[] = {0,1,2,3};
 static GLuint direita [] = {4,7,6,5};
 static GLuint baixo [] = {12,15,14,13};
+static GLuint frente[] = {16,19,18,17};
+static GLuint tras [] = {20,23,22,21};
 
 
 // Definição dos vertices da sala
@@ -74,10 +76,16 @@ static GLfloat vertices[]={
     -tam,  -tam, -tam,	// 13
     tam,  -tam, -tam,	// 14
     tam,  -tam,  tam,	// 15
-
-    
     //……………………………………………………… (Frente)
+    -tam, -tam, tam,    //16
+    -tam, tam, tam,     //17
+    tam, tam, tam,      //18
+    tam, -tam, tam,     //19
     //……………………………………………………… (Tras)
+    -tam, -tam, -tam,   //20
+    -tam, tam, -tam,    //21
+    tam, tam, -tam,     //22
+    tam, -tam, -tam,    //23
 };
 
 //Definição das normais da sala
@@ -103,9 +111,16 @@ static GLfloat normais[] = {
     0.0,  -1.0,  0.0,
     0.0,  -1.0,  0.0,
     0.0,  -1.0,  0.0,
-    
     //……………………………………………………… (Frente)
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
     //……………………………………………………… (Tras)
+    0.0, 0.0, -1.0,
+    0.0, 0.0, -1.0,
+    0.0, 0.0, -1.0,
+    0.0, 0.0, -1.0,
 
     
 };

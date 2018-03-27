@@ -44,7 +44,9 @@ void drawScene()
     glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, direita);
     
     glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, baixo);
-
+    
+    glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, frente);
+    
 
 }
 

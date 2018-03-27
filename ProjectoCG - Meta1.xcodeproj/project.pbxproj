@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		B36547E3206A80F7007DA5C5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B36547E2206A80F7007DA5C5 /* main.cpp */; };
+		B36547EC206A825B007DA5C5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B36547EB206A825B007DA5C5 /* OpenGL.framework */; };
+		B36547EE206A8261007DA5C5 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B36547ED206A8261007DA5C5 /* GLUT.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,9 @@
 /* Begin PBXFileReference section */
 		B36547DF206A80F6007DA5C5 /* ProjectoCG - Meta1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "ProjectoCG - Meta1"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B36547E2206A80F7007DA5C5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		B36547E9206A81E3007DA5C5 /* main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
+		B36547EB206A825B007DA5C5 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		B36547ED206A8261007DA5C5 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +37,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B36547EE206A8261007DA5C5 /* GLUT.framework in Frameworks */,
+				B36547EC206A825B007DA5C5 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +50,7 @@
 			children = (
 				B36547E1206A80F7007DA5C5 /* ProjectoCG - Meta1 */,
 				B36547E0206A80F6007DA5C5 /* Products */,
+				B36547EA206A825B007DA5C5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,8 +66,18 @@
 			isa = PBXGroup;
 			children = (
 				B36547E2206A80F7007DA5C5 /* main.cpp */,
+				B36547E9206A81E3007DA5C5 /* main.h */,
 			);
 			path = "ProjectoCG - Meta1";
+			sourceTree = "<group>";
+		};
+		B36547EA206A825B007DA5C5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B36547ED206A8261007DA5C5 /* GLUT.framework */,
+				B36547EB206A825B007DA5C5 /* OpenGL.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

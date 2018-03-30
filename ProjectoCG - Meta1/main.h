@@ -28,13 +28,25 @@
 
 //Variáveis globais
 
+GLfloat tam = 10;
+GLint camera_no = 0;
+
 // Sistema Coordenadas + objectos
 GLint		wScreen=800, hScreen=600;		//.. janela (pixeis)
 GLfloat		xC=10.0, yC=10.0, zC=10.0;		//.. Mundo  (unidades mundo)
 
 // Variáveis do observador
-GLfloat  rVisao=5, aVisao=0.5*PI, incVisao=0.05;
-GLfloat  obsP[] ={static_cast<GLfloat>(rVisao*cos(aVisao)), 3.0, static_cast<GLfloat>(rVisao*sin(aVisao))};
+// Posição das cameras na sala.
+const GLfloat cameras [4][3] = {
+    {-tam,tam,tam},
+    {-tam,tam,-tam},
+    {tam,tam,-tam},
+    {tam,tam,tam}
+    
+};
+
+GLfloat  rVisao=8, aVisao=0.5*PI, incVisao=0.05;
+GLfloat  obsP[] ={static_cast<GLfloat>(cameras[camera_no][0] - rVisao*cos(aVisao)), cameras[camera_no][1] , static_cast<GLfloat>(cameras[camera_no][0] - rVisao*sin(aVisao))};
 GLfloat coordZ;
 GLfloat angZoom=90;
 GLfloat incZoom=3;
@@ -42,7 +54,7 @@ GLfloat x_inc = 0;
 GLfloat ang_inc = 0;
 
 
-GLfloat tam = 10;
+
 
 static GLuint cima[] = {8,11, 10,  9};
 static GLuint esquerda[] = {0,1,2,3};
@@ -57,35 +69,35 @@ static GLuint tras [] = {20,23,22,21};
 
 static GLfloat vertices[]={
     //…………………………………………………………………………………………………… x=tam (Esquerda)
-    -tam,  -tam,  tam,	// 0
+    -tam,   0,  tam,	// 0
     -tam,   tam,  tam,	// 1
     -tam,   tam, -tam,	// 2
-    -tam,  -tam, -tam,	// 3
+    -tam,   0, -tam,	// 3
     //…………………………………………………… Direita
-    tam,  -tam,  tam,	// 4
+    tam,    0,  tam,	// 4
     tam,   tam,  tam,	// 5
     tam,   tam, -tam,	// 6
-    tam,  -tam, -tam,	// 7
+    tam,    0, -tam,	// 7
     //……………………………………………………… (Cima
     -tam,  tam,  tam,	// 8
     -tam,  tam, -tam,	// 9
     tam,  tam, -tam,	// 10
     tam,  tam,  tam,	// 11
     //……………………………………………………… (Baixo)
-    -tam,  -tam,  tam,	// 12
-    -tam,  -tam, -tam,	// 13
-    tam,  -tam, -tam,	// 14
-    tam,  -tam,  tam,	// 15
+    -tam,   0,  tam,	// 12
+    -tam,   0, -tam,	// 13
+    tam,    0, -tam,	// 14
+    tam,    0,  tam,	// 15
     //……………………………………………………… (Frente)
-    -tam, -tam, tam,    //16
+    -tam,   0, tam,     //16
     -tam, tam, tam,     //17
     tam, tam, tam,      //18
-    tam, -tam, tam,     //19
+    tam,    0, tam,     //19
     //……………………………………………………… (Tras)
-    -tam, -tam, -tam,   //20
+    -tam,   0, -tam,    //20
     -tam, tam, -tam,    //21
     tam, tam, -tam,     //22
-    tam, -tam, -tam,    //23
+    tam,    0, -tam,    //23
 };
 
 //Definição das normais da sala

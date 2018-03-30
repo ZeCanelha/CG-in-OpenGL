@@ -15,7 +15,7 @@ void inicializa()
 {
     // Define a clear color
     
-    glClearColor(BLACK);
+    glClearColor(WHITE);
     
     // Activar a profundidade
     
@@ -37,15 +37,25 @@ void drawScene()
     
     // Desenhar a sala
     
+    glColor4f(WHITE);
+    
     glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, cima);
     
     glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, esquerda);
     
     glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, direita);
     
+    glColor4f(BLACK);
+    
     glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, baixo);
     
+    glColor4f(WHITE);
+    
     glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, frente);
+    
+    glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, tras);
+    
+    
     
 
 }
@@ -72,6 +82,7 @@ void drawEixos()
     glEnd();
     
 }
+
 
 void display(void){
     

@@ -23,6 +23,7 @@
 #define GREEN    0.0, 1.0, 0.0, 1.0
 #define WHITE    1.0, 1.0, 1.0, 1.0
 #define BLACK    0.0, 0.0, 0.0, 1.0
+#define BROWN    0.87, 0.72, 0.52, 1.0
 #define PI		 3.14159
 
 
@@ -38,15 +39,15 @@ GLfloat		xC=10.0, yC=10.0, zC=10.0;		//.. Mundo  (unidades mundo)
 // Variáveis do observador
 // Posição das cameras na sala.
 const GLfloat cameras [4][3] = {
-    {-tam,tam,tam},
-    {-tam,tam,-tam},
-    {tam,tam,-tam},
-    {tam,tam,tam}
+    {-tam/2,tam/2,tam/2},
+    {-tam/2,tam/2,-tam/2},
+    {tam/2,tam/2,-tam/2},
+    {tam/2,tam/2,tam/2}
     
 };
 
 GLfloat  rVisao=8, aVisao=0.5*PI, incVisao=0.05;
-GLfloat  obsP[] ={static_cast<GLfloat>(cameras[camera_no][0] - rVisao*cos(aVisao)), cameras[camera_no][1] , static_cast<GLfloat>(cameras[camera_no][0] - rVisao*sin(aVisao))};
+GLfloat  obsP[] ={static_cast<GLfloat>(rVisao*cos(aVisao)), cameras[camera_no][1] , static_cast<GLfloat>(rVisao*sin(aVisao))};
 GLfloat coordZ;
 GLfloat angZoom=90;
 GLfloat incZoom=3;
@@ -136,6 +137,12 @@ static GLfloat normais[] = {
 
     
 };
+
+
+// Functions
+
+void drawLata();
+void drawScene();
 
 
 #endif /* main_h */

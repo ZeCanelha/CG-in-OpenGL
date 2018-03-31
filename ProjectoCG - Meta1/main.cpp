@@ -32,6 +32,8 @@ void inicializa()
     glEnableClientState(GL_NORMAL_ARRAY);
 }
 
+
+
 void drawScene()
 {
     
@@ -56,9 +58,29 @@ void drawScene()
     glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, tras);
     
     
+    drawLata();
     
-
 }
+
+void drawLata()
+{
+    glColor4f(BROWN);
+    glPushMatrix();
+        glTranslatef(0, 0, 0);
+        glScalef(1, 3, 1);
+        glutSolidCube(1);
+    glPopMatrix();
+    
+    glPushMatrix();
+        glTranslatef(0, 2, 0);
+        glRotatef(90, 1, 0, 0);
+        glColor4f(RED);
+        GLUquadricObj* y = gluNewQuadric ( );
+        gluCylinder( y, 0.25, 0.25, 1, 100, 100);
+    glPopMatrix();
+}
+
+
 
 void drawEixos()
 {
@@ -124,6 +146,8 @@ void teclasNotAscii(int key, int x, int y){
     if(key == GLUT_KEY_DOWN)
         obsP[1] = (obsP[1]- 0.1) ;
     
+    // Observador não sai da sala
+    
     if (obsP[1]>yC)
         obsP[1]=yC;
     if (obsP[1]<-yC)
@@ -134,8 +158,8 @@ void teclasNotAscii(int key, int x, int y){
     if(key == GLUT_KEY_RIGHT)
         aVisao = (aVisao - 0.1) ;
     
-    obsP[0]=rVisao*cos(aVisao);
-    obsP[2]=rVisao*sin(aVisao);
+    obsP[0]= rVisao*cos(aVisao);
+    obsP[2]= rVisao*sin(aVisao);
     
     
     glutPostRedisplay();
@@ -147,34 +171,6 @@ void keyboard(unsigned char key, int x, int y){
     
     switch (key) {
                 
-        case 'A':
-        case 'a':
-            x_inc-=1;
-            glutPostRedisplay();
-            break;
-            
-        case 'S':
-        case 's':
-            x_inc+=1;
-            glutPostRedisplay();
-            break;
-            
-        case 'e':
-        case 'E':
-            ang_inc+=2;
-            glutPostRedisplay();
-            break;
-            
-        case 'd':
-        case 'D':
-            ang_inc-=2;
-            glutPostRedisplay();
-            break;
-        case 'z':
-        case 'Z':
-            coordZ+=1;
-            glutPostRedisplay();
-            break;
         case '+':
             angZoom-=2;
             glutPostRedisplay();
@@ -183,7 +179,6 @@ void keyboard(unsigned char key, int x, int y){
             angZoom+=2;
             glutPostRedisplay();
             break;
-            
             
             //--------------------------- Escape
         case 27:

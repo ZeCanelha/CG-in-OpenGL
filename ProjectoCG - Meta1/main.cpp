@@ -225,54 +225,51 @@ void teclasNotAscii(int key, int x, int y){
         obsPini[2]=obsPini[2]+incVisao*sin(aVisao);
     }
     if(key == GLUT_KEY_LEFT) {
-        aVisao = (aVisao + 0.15) ;
+        aVisao = (aVisao + 0.3) ;
         
     }
     if(key == GLUT_KEY_RIGHT) {
-        aVisao = (aVisao - 0.15) ;
-        
-        
+        aVisao = (aVisao - 0.3) ;
     }
+    
     
     // Limites em Y
     
-    if (obsP[1] > tam)
+    if (obsPini[1] > tam)
     {
-        obsP[1] = tam;
-
+        obsPini[1] = tam;
+        
     }
-    if (obsP[1] < -tam)
+    if (obsPini[1] < -tam)
     {
-        obsP[1] = -tam;
+        obsPini[1] = -tam;
     }
     
     // Limites em X
     
-    if (obsP[0] > tam )
+    if (obsPini[0] > tam )
     {
-        obsP[0] = tam;
+        obsPini[0] = tam;
     }
-    if (obsP[0] < -tam )
+    if (obsPini[0] < -tam )
     {
-        obsP[0] = -tam;
+        obsPini[0] = -tam;
     }
     
     // Limites em Z
     
-    if (obsP[2] > tam )
+    if (obsPini[2] > tam )
     {
-        obsP[2] = tam;
+        obsPini[2] = tam;
     }
-    if (obsP[2] < -tam )
+    if (obsPini[2] < -tam )
     {
-        obsP[2] = -tam;
+        obsPini[2] = -tam;
     }
-
-    
     
     
     update_obs();
-    
+
 }
 
 void update_obs()
@@ -293,6 +290,14 @@ void keyboard(unsigned char key, int x, int y){
             break;
         case '-':
             angZoom+=2;
+            glutPostRedisplay();
+            break;
+        case 'q':
+            obsPini[1]=obsPini[1]-incVisao;
+            glutPostRedisplay();
+            break;
+        case 'w':
+            obsPini[1]=obsPini[1]+incVisao;
             glutPostRedisplay();
             break;
             //--------------------------- Escape

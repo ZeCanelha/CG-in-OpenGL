@@ -12,6 +12,7 @@
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #include <GLUT/glut.h>
+#include "RgbImage.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -32,22 +33,31 @@
 GLfloat tam = 10;
 GLint camera_no = 0;
 
+//Textures
+
+
+GLuint texture[10];
+GLuint  tex;
+RgbImage imag;
+
+
+
 // Sistema Coordenadas + objectos
 GLint		wScreen=800, hScreen=600;		//.. janela (pixeis)
 GLfloat		xC=10.0, yC=10.0, zC=10.0;		//.. Mundo  (unidades mundo)
 
 // Variáveis do observador
-// Posição das cameras na sala.
-const GLfloat cameras [4][3] = {
-    {-tam/2,tam/2,tam/2},
-    {-tam/2,tam/2,-tam/2},
-    {tam/2,tam/2,-tam/2},
-    {tam/2,tam/2,tam/2}
-    
-};
+// Posição do observador
 
-GLfloat  rVisao=8, aVisao=0.5*PI, incVisao=0.05;
-GLfloat  obsP[] ={static_cast<GLfloat>(rVisao*cos(aVisao)), cameras[camera_no][1] , static_cast<GLfloat>(rVisao*sin(aVisao))};
+GLfloat xObs = 0, yObs = 5, zObs = 0;
+
+
+GLfloat  rVisao=8, aVisao=0.5*PI, incVisao=0.15;
+
+GLfloat  obsPini[] ={xObs,yObs, zObs};
+
+GLfloat  obsP[] = {static_cast<GLfloat>(obsPini[0]-rVisao*cos(aVisao)), obsPini[1], static_cast<GLfloat>(obsPini[2]-rVisao*sin(aVisao))};
+
 GLfloat coordZ;
 GLfloat angZoom=90;
 GLfloat incZoom=3;
@@ -57,92 +67,14 @@ GLfloat ang_inc = 0;
 
 
 
-static GLuint cima[] = {8,11, 10,  9};
-static GLuint esquerda[] = {0,1,2,3};
-static GLuint direita [] = {4,7,6,5};
-static GLuint baixo [] = {12,15,14,13};
-static GLuint frente[] = {16,19,18,17};
-static GLuint tras [] = {20,23,22,21};
-
-
-// Definição dos vertices da sala
-// A colocação da ordem dos vertices é de acordo com a face visivel
-
-static GLfloat vertices[]={
-    //…………………………………………………………………………………………………… x=tam (Esquerda)
-    -tam,   0,  tam,	// 0
-    -tam,   tam,  tam,	// 1
-    -tam,   tam, -tam,	// 2
-    -tam,   0, -tam,	// 3
-    //…………………………………………………… Direita
-    tam,    0,  tam,	// 4
-    tam,   tam,  tam,	// 5
-    tam,   tam, -tam,	// 6
-    tam,    0, -tam,	// 7
-    //……………………………………………………… (Cima
-    -tam,  tam,  tam,	// 8
-    -tam,  tam, -tam,	// 9
-    tam,  tam, -tam,	// 10
-    tam,  tam,  tam,	// 11
-    //……………………………………………………… (Baixo)
-    -tam,   0,  tam,	// 12
-    -tam,   0, -tam,	// 13
-    tam,    0, -tam,	// 14
-    tam,    0,  tam,	// 15
-    //……………………………………………………… (Frente)
-    -tam,   0, tam,     //16
-    -tam, tam, tam,     //17
-    tam, tam, tam,      //18
-    tam,    0, tam,     //19
-    //……………………………………………………… (Tras)
-    -tam,   0, -tam,    //20
-    -tam, tam, -tam,    //21
-    tam, tam, -tam,     //22
-    tam,    0, -tam,    //23
-};
-
-//Definição das normais da sala
-
-static GLfloat normais[] = {
-    //…………………………………………………………………………………………………… x=tam (Esquerda)
-    -1.0,  0.0,  0.0,
-    -1.0,  0.0,  0.0,
-    -1.0,  0.0,  0.0,
-    -1.0,  0.0,  0.0,
-    //…………………………………………………………………………………………………… x=tam (Direita)
-    1.0,  0.0,  0.0,
-    1.0,  0.0,  0.0,
-    1.0,  0.0,  0.0,
-    1.0,  0.0,  0.0,
-    //…………………………………………………………………………………………………… y=tam (Cima)
-    0.0,  1.0,  0.0,
-    0.0,  1.0,  0.0,
-    0.0,  1.0,  0.0,
-    0.0,  1.0,  0.0,
-    //……………………………………………………… y = -tam(Baixo)
-    0.0,  -1.0,  0.0,
-    0.0,  -1.0,  0.0,
-    0.0,  -1.0,  0.0,
-    0.0,  -1.0,  0.0,
-    //……………………………………………………… (Frente)
-    0.0, 0.0, 1.0,
-    0.0, 0.0, 1.0,
-    0.0, 0.0, 1.0,
-    0.0, 0.0, 1.0,
-    //……………………………………………………… (Tras)
-    0.0, 0.0, -1.0,
-    0.0, 0.0, -1.0,
-    0.0, 0.0, -1.0,
-    0.0, 0.0, -1.0,
-
-    
-};
 
 
 // Functions
 
 void drawLata();
 void drawScene();
-
+void drawWalls();
+void defineTextures();
+void update_obs();
 
 #endif /* main_h */

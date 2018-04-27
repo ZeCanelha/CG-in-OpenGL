@@ -21,17 +21,53 @@ void inicializa()
     
     glEnable(GL_DEPTH_TEST);
     
-    // Atribuir os vértices
+    // Carregar as texturas
     
-    glVertexPointer(3, GL_FLOAT, 0, vertices); //………………………………………Vertex arrays
-    glEnableClientState(GL_VERTEX_ARRAY);
+    defineTextures();
     
-    // Activar as normais
+    // Activar as texturas
     
-    glNormalPointer(GL_FLOAT, 0, normais);
-    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnable(GL_TEXTURE_2D);
+    
+    
+
 }
 
+void defineTextures()
+{
+  
+    /* Textura do chão */
+        
+    glGenTextures(1, &texture[0]);
+    glBindTexture(GL_TEXTURE_2D, texture[0]);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    imag.LoadBmpFile("Textures/chao.bmp");
+    glTexImage2D(GL_TEXTURE_2D, 0, 3,
+                    imag.GetNumCols(),
+                    imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+                    imag.ImageData());
+    
+      /* Textura das paredes */
+    
+    glGenTextures(1, &texture[1]);
+    glBindTexture(GL_TEXTURE_2D, texture[1]);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    imag.LoadBmpFile("Textures/parede.bmp");
+    glTexImage2D(GL_TEXTURE_2D, 0, 3,
+                 imag.GetNumCols(),
+                 imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+                 imag.ImageData());
+
+    
+}
 
 
 void drawScene()
@@ -39,45 +75,84 @@ void drawScene()
     
     // Desenhar a sala
     
-    glColor4f(WHITE);
+    drawWalls();
     
-    glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, cima);
-    
-    glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, esquerda);
-    
-    glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, direita);
-    
-    glColor4f(BLACK);
-    
-    glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, baixo);
-    
-    glColor4f(WHITE);
-    
-    glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, frente);
-    
-    glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, tras);
-    
-    
-    drawLata();
     
 }
 
-void drawLata()
+void drawWalls()
 {
-    glColor4f(BROWN);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,texture[0]);
+    
+    //CHAO
     glPushMatrix();
-        glTranslatef(0, 0, 0);
-        glScalef(1, 3, 1);
-        glutSolidCube(1);
+    glNormal3f(0.0f, 1.0f, 0.0f);
+    glBegin(GL_POLYGON);
+    glTexCoord2f(1.0f,1.0f);        glVertex3f(  tam, 0, -tam );
+    glTexCoord2f(1.0f,0.0f);        glVertex3f(  tam, 0,  tam );
+    glTexCoord2f(0.0f,0.0f);     	glVertex3f( -tam, 0, tam );
+    glTexCoord2f(0.0f,1.0f);     	glVertex3f( -tam, 0, -tam );
+    glEnd();
+    glPopMatrix();
+
+    
+    glBindTexture(GL_TEXTURE_2D,texture[1]);
+    
+    //FRENTE
+    glPushMatrix();
+    glNormal3f(0.0f, 0.0f, 1.0f);
+    glBegin(GL_POLYGON);
+    glTexCoord2f(1.0f,1.0f);    	glVertex3f(  tam, 0, -tam );
+    glTexCoord2f(1.0f,0.0f);    	glVertex3f(  tam,  tam, -tam );
+    glTexCoord2f(0.0f,0.0f);     	glVertex3f( -tam,  tam, -tam );
+    glTexCoord2f(0.0f,1.0f);     	glVertex3f( -tam, 0, -tam );
+    glEnd();
     glPopMatrix();
     
+    //TRAS
     glPushMatrix();
-        glTranslatef(0, 2, 0);
-        glRotatef(90, 1, 0, 0);
-        glColor4f(RED);
-        GLUquadricObj* y = gluNewQuadric ( );
-        gluCylinder( y, 0.25, 0.25, 1, 100, 100);
+    glBegin(GL_POLYGON);
+    glTexCoord2f(1.0f,1.0f);        glVertex3f(  tam, 0, tam );
+    glTexCoord2f(1.0f,0.0f);        glVertex3f(  tam,  tam, tam );
+    glTexCoord2f(0.0f,0.0f);     	glVertex3f( -tam,  tam, tam );
+    glTexCoord2f(0.0f,1.0f);     	glVertex3f( -tam, 0, tam );
+    glEnd();
     glPopMatrix();
+    
+    //DIREITA
+    glPushMatrix();
+    glBegin(GL_POLYGON);
+    glTexCoord2f(1.0f,1.0f);        glVertex3f( tam, 0, -tam );
+    glTexCoord2f(1.0f,0.0f);        glVertex3f( tam,  tam, -tam );
+    glTexCoord2f(0.0f,0.0f);     	glVertex3f( tam,  tam,  tam );
+    glTexCoord2f(0.0f,1.0f);     	glVertex3f( tam, 0,  tam );
+    glEnd();
+    glPopMatrix();
+    
+    //ESQUERDA
+    glPushMatrix();
+    glBegin(GL_POLYGON);
+    glTexCoord2f(1.0f,1.0f);        glVertex3f( -tam, 0, tam );
+    glTexCoord2f(1.0f,0.0f);        glVertex3f( -tam,  tam,  tam );
+    glTexCoord2f(0.0f,0.0f);     	glVertex3f( -tam,  tam, -tam );
+    glTexCoord2f(0.0f,1.0f);     	glVertex3f( -tam, 0, -tam );
+    glEnd();
+    glPopMatrix();
+    
+    //TOPO
+    glPushMatrix();
+    glBegin(GL_POLYGON);
+    glTexCoord2f(1.0f,1.0f);        glVertex3f(  tam,  tam,  tam );
+    glTexCoord2f(1.0f,0.0f);        glVertex3f(  tam,  tam, -tam );
+    glTexCoord2f(0.0f,0.0f);     	glVertex3f( -tam,  tam, -tam );
+    glTexCoord2f(0.0f,1.0f);     	glVertex3f( -tam,  tam,  tam );
+    glEnd();
+    glPopMatrix();
+    
+    
+    
+    
 }
 
 
@@ -122,7 +197,7 @@ void display(void){
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(obsP[0], obsP[1], obsP[2], 0,0,0, 0, 1, 0);
+    gluLookAt(obsPini[0], obsPini[1], obsPini[2],obsP[0],obsP[1],obsP[2] , 0, 1, 0);
    
     
     // Desenho da cena
@@ -141,29 +216,70 @@ void display(void){
 
 void teclasNotAscii(int key, int x, int y){
     
-    if(key == GLUT_KEY_UP)
-        obsP[1] = (obsP[1]+ 0.1) ;
-    if(key == GLUT_KEY_DOWN)
-        obsP[1] = (obsP[1]- 0.1) ;
+    if(key == GLUT_KEY_UP) {
+        obsPini[0]=obsPini[0]+incVisao*cos(aVisao);
+        obsPini[2]=obsPini[2]-incVisao*sin(aVisao);
+    }
+    if(key == GLUT_KEY_DOWN) {
+        obsPini[0]=obsPini[0]-incVisao*cos(aVisao);
+        obsPini[2]=obsPini[2]+incVisao*sin(aVisao);
+    }
+    if(key == GLUT_KEY_LEFT) {
+        aVisao = (aVisao + 0.15) ;
+        
+    }
+    if(key == GLUT_KEY_RIGHT) {
+        aVisao = (aVisao - 0.15) ;
+        
+        
+    }
     
-    // Observador não sai da sala
+    // Limites em Y
     
-    if (obsP[1]>yC)
-        obsP[1]=yC;
-    if (obsP[1]<-yC)
-        obsP[1]=-yC;
+    if (obsP[1] > tam)
+    {
+        obsP[1] = tam;
+
+    }
+    if (obsP[1] < -tam)
+    {
+        obsP[1] = -tam;
+    }
     
-    if(key == GLUT_KEY_LEFT)
-        aVisao = (aVisao + 0.1) ;
-    if(key == GLUT_KEY_RIGHT)
-        aVisao = (aVisao - 0.1) ;
+    // Limites em X
     
-    obsP[0]= rVisao*cos(aVisao);
-    obsP[2]= rVisao*sin(aVisao);
+    if (obsP[0] > tam )
+    {
+        obsP[0] = tam;
+    }
+    if (obsP[0] < -tam )
+    {
+        obsP[0] = -tam;
+    }
+    
+    // Limites em Z
+    
+    if (obsP[2] > tam )
+    {
+        obsP[2] = tam;
+    }
+    if (obsP[2] < -tam )
+    {
+        obsP[2] = -tam;
+    }
+
     
     
+    
+    update_obs();
+    
+}
+
+void update_obs()
+{
+    obsP[0] =obsPini[0]+rVisao*cos(aVisao);
+    obsP[2] =obsPini[2]-rVisao*sin(aVisao);
     glutPostRedisplay();
-    
 }
 
 void keyboard(unsigned char key, int x, int y){
@@ -179,7 +295,6 @@ void keyboard(unsigned char key, int x, int y){
             angZoom+=2;
             glutPostRedisplay();
             break;
-            
             //--------------------------- Escape
         case 27:
             exit(0);
@@ -195,7 +310,7 @@ int main(int argc, char** argv){
     glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH );
     glutInitWindowSize (wScreen, hScreen);
     glutInitWindowPosition (300, 100);
-    glutCreateWindow ("Luís Amaro; José Canelha; Meta1 - Coordenadas");
+    glutCreateWindow ("Luís Amaro; José Canelha; Meta2 - Iluminacao");
     
     inicializa();
     

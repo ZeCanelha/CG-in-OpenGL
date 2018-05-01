@@ -25,8 +25,16 @@
 #define WHITE    1.0, 1.0, 1.0, 1.0
 #define BLACK    0.0, 0.0, 0.0, 1.0
 #define BROWN    0.87, 0.72, 0.52, 1.0
+#define GRAY1    0.2, 0.2, 0.2, 1.0
+#define GRAY2    0.93, 0.93, 0.93, 1.0
 #define PI		 3.14159
+#define PAINT1   2
+#define PAINT2   3
 
+
+// Sistema Coordenadas + objectos
+GLint		wScreen=800, hScreen=600;		//.. janela (pixeis)
+GLfloat		xC=10.0, yC=10.0, zC=10.0;		//.. Mundo  (unidades mundo)
 
 //Variáveis globais
 
@@ -40,11 +48,23 @@ GLuint texture[10];
 GLuint  tex;
 RgbImage imag;
 
+// Iluminação
+
+GLint   noite = 1;
+GLfloat luzGlobalCor[4]={1.0,1.0,1.0,1.0};
+
+// --- Lampada dentro da sala ---
+
+GLint   ligaLuz=1;
+
+GLfloat localCor[4] ={1.0f,0.0,0.0,1.0};
+GLfloat localCorDif[4] ={ 1, 1, 1, 1.0};
+GLfloat localPos[4] ={0, tam, 0, 1.0};
+GLfloat localAttCon =1.0;
+GLfloat localAttLin =0.05;
+GLfloat localAttQua =0.0;
 
 
-// Sistema Coordenadas + objectos
-GLint		wScreen=800, hScreen=600;		//.. janela (pixeis)
-GLfloat		xC=10.0, yC=10.0, zC=10.0;		//.. Mundo  (unidades mundo)
 
 // Variáveis do observador
 // Posição do observador
@@ -76,5 +96,8 @@ void drawScene();
 void drawWalls();
 void defineTextures();
 void update_obs();
+void init_lights();
+void draw_paintings(GLfloat widht, GLfloat height, GLfloat width, GLint text);
+void draw_stand();
 
 #endif /* main_h */

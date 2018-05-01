@@ -20,6 +20,8 @@ void inicializa()
     // Activar a profundidade
     
     glEnable(GL_DEPTH_TEST);
+    // Activar as normais
+    glEnable(GL_NORMALIZE);
     
     // Carregar as texturas
     
@@ -29,8 +31,28 @@ void inicializa()
     
     glEnable(GL_TEXTURE_2D);
     
+    // Inicializar a iluminação
     
+    //init_lights();
+    //glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHT1);
 
+}
+
+void init_lights()
+{
+    // Componente de Ambiente GLobal
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzGlobalCor);
+    
+    
+    glLightfv(GL_LIGHT0, GL_POSITION,      localPos );
+    glLightfv(GL_LIGHT0, GL_AMBIENT,       localCor );
+    glLightfv(GL_LIGHT0, GL_DIFFUSE,       localCorDif );
+    glLightf (GL_LIGHT0, GL_CONSTANT_ATTENUATION, localAttCon);
+    glLightf (GL_LIGHT0, GL_LINEAR_ATTENUATION,   localAttLin) ;
+    glLightf (GL_LIGHT0, GL_QUADRATIC_ATTENUATION,localAttQua) ;
+    
+    
 }
 
 void defineTextures()
@@ -67,6 +89,21 @@ void defineTextures()
                  imag.ImageData());
 
     
+    /* QUADRO 1 */
+    
+    glGenTextures(1, &texture[2]);
+    glBindTexture(GL_TEXTURE_2D, texture[2]);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    imag.LoadBmpFile("Textures/pop.bmp");
+    glTexImage2D(GL_TEXTURE_2D, 0, 3,
+                 imag.GetNumCols(),
+                 imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+                 imag.ImageData());
+    
 }
 
 
@@ -76,6 +113,109 @@ void drawScene()
     // Desenhar a sala
     
     drawWalls();
+    
+    //Posição dos quadros
+    
+    glPushMatrix();
+    glTranslatef(0.0f, 1.0f, -tam);
+    draw_paintings(8,6.5,0.2,PAINT1);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glRotated(90, 0.0f, 1.0f, 0.0f);
+    glTranslatef(0.0f, 1.0f, tam);
+    draw_paintings(8,6.5,0.2,PAINT2);
+    glPopMatrix();
+    
+    //draw_stand();
+    
+    
+}
+
+void draw_stand()
+{
+    
+}
+
+void draw_paintings(GLfloat w, GLfloat h, GLfloat width, GLint texture_n)
+{
+   
+    
+    //FRENTE
+    
+    glPushMatrix();
+    glNormal3f(0.0f, 0.0f, 1.0f);
+    glBegin(GL_POLYGON);
+    glVertex3f(  w, 0, width );
+    glVertex3f(  w,  h, width );
+    glVertex3f( -w,  h, width );
+    glVertex3f( -w, 0, width );
+    glEnd();
+    glPopMatrix();
+    
+    //TRAS
+    
+    glPushMatrix();
+    glNormal3f(0.0f, 0.0f, -1.0f);
+    glBegin(GL_POLYGON);
+    glVertex3f(  w, 0, -width );
+    glVertex3f(  w,  h, -width );
+    glVertex3f( -w,  h, -width );
+    glVertex3f( -w, 0, -width );
+    glEnd();
+    glPopMatrix();
+    
+    // CIMA
+
+    glPushMatrix();
+    glNormal3f(0.0f, 1.0f, 0.0f);
+    glBegin(GL_POLYGON);
+    glVertex3f(  w, h, -width );
+    glVertex3f(  w, h,  width );
+    glVertex3f( -w, h,  width );
+    glVertex3f( -w, h, -width );
+    glEnd();
+    glPopMatrix();
+    
+    //BAIXO
+    
+    glPushMatrix();
+    glNormal3f(0.0f, -1.0f, 0.0f);
+    glBegin(GL_POLYGON);
+    glVertex3f(  w, 0, -width );
+    glVertex3f(  w, 0,  width );
+    glVertex3f( -w, 0,  width );
+    glVertex3f( -w, 0, -width );
+    glEnd();
+    glPopMatrix();
+    
+    // ESQUERDA
+    
+    glPushMatrix();
+    glNormal3f(-1.0f, 0.0f, 0.0f);
+    glBegin(GL_POLYGON);
+    glVertex3f( -w, 0,  width );
+    glVertex3f( -w, h,  width );
+    glVertex3f( -w, h, -width );
+    glVertex3f( -w, 0, -width );
+    glEnd();
+    glPopMatrix();
+    
+    // DIREITA
+    
+    glPushMatrix();
+    glNormal3f( 1.0f, 0.0f, 0.0f);
+    glBegin(GL_POLYGON);
+    glVertex3f( w, 0,  width );
+    glVertex3f( w, h,  width );
+    glVertex3f( w, h, -width );
+    glVertex3f( w, 0, -width );
+    glEnd();
+    glPopMatrix();
+
+    
+    
+    
     
     
 }
@@ -87,7 +227,7 @@ void drawWalls()
     
     //CHAO
     glPushMatrix();
-    glNormal3f(0.0f, 1.0f, 0.0f);
+    glNormal3f(0.0f, -1.0f, 0.0f);
     glBegin(GL_POLYGON);
     glTexCoord2f(1.0f,1.0f);        glVertex3f(  tam, 0, -tam );
     glTexCoord2f(1.0f,0.0f);        glVertex3f(  tam, 0,  tam );
@@ -99,7 +239,7 @@ void drawWalls()
     
     glBindTexture(GL_TEXTURE_2D,texture[1]);
     
-    //FRENTE
+    //TRAS
     glPushMatrix();
     glNormal3f(0.0f, 0.0f, 1.0f);
     glBegin(GL_POLYGON);
@@ -110,7 +250,7 @@ void drawWalls()
     glEnd();
     glPopMatrix();
     
-    //TRAS
+    //FRENTE
     glPushMatrix();
     glBegin(GL_POLYGON);
     glTexCoord2f(1.0f,1.0f);        glVertex3f(  tam, 0, tam );
@@ -183,9 +323,9 @@ void drawEixos()
 
 void display(void){
     
+    
     // Apaga ecran/profundidade
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    
     
     
     //Definição do tipo de projecção
@@ -300,7 +440,6 @@ void keyboard(unsigned char key, int x, int y){
             obsPini[1]=obsPini[1]+incVisao;
             glutPostRedisplay();
             break;
-            //--------------------------- Escape
         case 27:
             exit(0);
             break;

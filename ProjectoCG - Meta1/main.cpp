@@ -17,11 +17,12 @@ void inicializa()
     
     glClearColor(WHITE);
     
-    // Activar a profundidade
-    
+    // Activar a profundidade;
     glEnable(GL_DEPTH_TEST);
     // Activar as normais
     glEnable(GL_NORMALIZE);
+    
+    glShadeModel(GL_SMOOTH);
     
     // Carregar as texturas
     
@@ -33,17 +34,16 @@ void inicializa()
     
     // Inicializar a iluminação
     
-    //init_lights();
-    //glEnable(GL_LIGHTING);
-    //glEnable(GL_LIGHT1);
+
+
 
 }
 
 void init_lights()
 {
-    // Componente de Ambiente GLobal
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzGlobalCor);
+   
     
+    // Lampada 
     
     glLightfv(GL_LIGHT0, GL_POSITION,      localPos );
     glLightfv(GL_LIGHT0, GL_AMBIENT,       localCor );
@@ -51,6 +51,8 @@ void init_lights()
     glLightf (GL_LIGHT0, GL_CONSTANT_ATTENUATION, localAttCon);
     glLightf (GL_LIGHT0, GL_LINEAR_ATTENUATION,   localAttLin) ;
     glLightf (GL_LIGHT0, GL_QUADRATIC_ATTENUATION,localAttQua) ;
+    
+    
     
     
 }
@@ -116,6 +118,7 @@ void drawScene()
     
     glPushMatrix();
     glTranslatef(0.0f, 0.0f, -tam);
+    glNormal3f(0.0f, 0.0f, 1.0f);
     drawWalls(WALL,0);
     glPopMatrix();
     
@@ -123,6 +126,7 @@ void drawScene()
     
     glPushMatrix();
     glTranslatef(0.0f, 0.0f, tam);
+    glNormal3f(0.0f, 0.0f, -1.0f);
     drawWalls(WALL,0);
     glPopMatrix();
     
@@ -131,6 +135,7 @@ void drawScene()
     glPushMatrix();
     glRotatef(90, 0.0f, 1.0f, 0.0f);
     glTranslatef(0.0f, 0.0f, tam);
+    glNormal3f(-1.0f, 0.0f, 0.0f);
     drawWalls(WALL,0);
     glPopMatrix();
     
@@ -139,22 +144,33 @@ void drawScene()
     glPushMatrix();
     glRotatef(90, 0.0f, 1.0f, 0.0f);
     glTranslatef(0.0f, 0.0f, -tam);
+    glNormal3f(1.0f, 0.0f, 0.0f);
     drawWalls(WALL,0);
     glPopMatrix();
     
     // Parede -> Chao
     
     glPushMatrix();
-    glTranslatef(0, 0, -tam);
-    glRotatef(90, 1.0f, 0.0f, 0.0f);
-    drawWalls(WALL,1);
+    glNormal3f(0.0f, 1.0f, 0.0f);
+    glTranslatef(0.0f, 0.0f, -tam);
+    glRotatef(90, 1, 0, 0);
+    glScalef(1.0f, 2.0f, 1.0f);
+    drawWalls(FLOOR,1);
+    
     glPopMatrix();
+    
+    // Parede -> TETO
+    
     glPushMatrix();
-    glTranslatef(0, 0, 0);
-    glRotatef(90, 1.0f, 0.0f, 0.0f);
-    drawWalls(WALL,1);
+    glNormal3f(0.0f, -1.0f, 0.0f);
+    glTranslatef(0.0f, tam, -tam);
+    glRotatef(90, 1, 0, 0);
+    glScalef(1.0f, 2.0f, 1.0f);
+    drawWalls(WALL,0);
+    
     glPopMatrix();
-
+    
+    
     
     
     /*
@@ -175,7 +191,7 @@ void drawScene()
     
     //draw_stand();
     
-     */
+    */
     
 }
 
@@ -188,7 +204,7 @@ void draw_paintings(GLfloat w, GLfloat h, GLfloat width, GLint texture_n)
 {
    
     
-    glColor4f(YELLOW);
+    glColor4f(BLACK);
     //FRENTE
     
     glPushMatrix();
@@ -268,7 +284,7 @@ void drawWalls(GLint texture_n, int a )
 {
     
     if(a == 0)
-        glColor4f(RED);
+        glColor4f(BROWN);
     else
         glColor4f(GRAY1);
     
@@ -283,7 +299,6 @@ void drawWalls(GLint texture_n, int a )
         for (j = 1; j <= wall_size; j++)
         {
             glPushMatrix();
-            glNormal3f(0.0f, 0.0f, 1.0f);
             glBegin(GL_POLYGON);
             glVertex3f(  (BRICK * j), height, width );
             glVertex3f(  (BRICK * j),  (BRICK * i), width );
@@ -337,6 +352,7 @@ void display(void){
     
     //Definição do tipo de projecção
     
+    
     glViewport(0, 0, wScreen, hScreen);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -379,7 +395,7 @@ void teclasNotAscii(int key, int x, int y){
         aVisao = (aVisao - 0.3) ;
     }
     
-    
+    /*
     // Limites em Y
     
     if (obsPini[1] > tam)
@@ -413,6 +429,7 @@ void teclasNotAscii(int key, int x, int y){
     {
         obsPini[2] = -tam;
     }
+    */
     
     
     update_obs();

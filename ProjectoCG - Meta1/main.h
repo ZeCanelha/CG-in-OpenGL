@@ -28,7 +28,7 @@
 #define GRAY1    0.2, 0.2, 0.2, 1.0
 #define GRAY2    0.93, 0.93, 0.93, 1.0
 #define PI		 3.14159
-#define BRICK    2   
+#define BRICK    2
 #define FLOOR    0
 #define WALL     1
 #define PAINT1   2
@@ -53,16 +53,17 @@ RgbImage imag;
 
 // Iluminação
 
-GLint   noite = 1;
+GLint   noite=1;
 GLfloat luzGlobalCor[4]={1.0,1.0,1.0,1.0};
 
 // --- Lampada dentro da sala ---
 
 GLint   ligaLuz=1;
 
-GLfloat localCor[4] ={1.0f,0.0,0.0,1.0};
-GLfloat localCorDif[4] ={ 1, 1, 1, 1.0};
-GLfloat localPos[4] ={0, tam, 0, 1.0};
+GLfloat localCor[4] ={0.6,0.6,0.6,1.0};
+GLfloat localCorDif[4] ={ 1.0, 0.6f, 0.15f, 1.0};
+GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+GLfloat localPos[4] ={xC/2, 10.0, xC/2, 0};
 GLfloat localAttCon =1.0;
 GLfloat localAttLin =0.05;
 GLfloat localAttQua =0.0;

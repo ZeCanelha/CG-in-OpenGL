@@ -23,6 +23,7 @@ void inicializa()
     glEnable(GL_NORMALIZE);
     
     glShadeModel(GL_SMOOTH);
+    glEnable(GL_BLEND);
     
     // Carregar as texturas
     
@@ -38,16 +39,16 @@ void inicializa()
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glEnable(GL_COLOR_MATERIAL);
-
-
-
+    
+    
+    
 }
 
 void init_lights()
 {
-   
     
-    // Lampada 
+    
+    // Lampada
     
     glLightfv(GL_LIGHT0, GL_POSITION,      localPos );
     glLightfv(GL_LIGHT0, GL_AMBIENT,       localCor );
@@ -63,9 +64,9 @@ void init_lights()
 
 void defineTextures()
 {
-  
+    
     /* Textura do chão */
-        
+    
     glGenTextures(1, &texture[0]);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
@@ -75,11 +76,11 @@ void defineTextures()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     imag.LoadBmpFile("Textures/chao.bmp");
     glTexImage2D(GL_TEXTURE_2D, 0, 3,
-                    imag.GetNumCols(),
-                    imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
-                    imag.ImageData());
+                 imag.GetNumCols(),
+                 imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+                 imag.ImageData());
     
-      /* Textura das paredes */
+    /* Textura das paredes */
     
     glGenTextures(1, &texture[1]);
     glBindTexture(GL_TEXTURE_2D, texture[1]);
@@ -93,7 +94,7 @@ void defineTextures()
                  imag.GetNumCols(),
                  imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
                  imag.ImageData());
-
+    
     
     /* QUADRO 1 */
     
@@ -115,6 +116,8 @@ void defineTextures()
 
 void drawScene()
 {
+    
+    glBlendFunc (GL_ONE, GL_ZERO);
     
     // ------- Desenhar a sala ------- \\
     
@@ -194,14 +197,14 @@ void drawScene()
     
     glPushMatrix();
     glTranslatef(-tam+2.5, 0.0f, tam - 3);
-    draw_stand(4,1,1,1);
+    draw_stand(4,1,1,1,1);
     glPopMatrix();
     
     // BANCO FRONTAL
     
     glPushMatrix();
     glTranslatef(0.0f, 0.0f, -tam + 3);
-    draw_stand(1, 4, 1, 1);
+    draw_stand(1, 4, 1, 1, 0);
     glPopMatrix();
     
     
@@ -209,7 +212,7 @@ void drawScene()
     
 }
 
-void draw_stand(int max_cubes, int size, int h, int z_size)
+void draw_stand(int max_cubes, int size, int h, int z_size, int stand)
 {
     int i,j;
     int height = 0;
@@ -220,6 +223,16 @@ void draw_stand(int max_cubes, int size, int h, int z_size)
     {
         for (j = 1; j <= max_cubes; j++ )
         {
+            
+            if( j == max_cubes && i == max_cubes && stand)
+            {
+                // DESENHAR UM CUBO TRANSPARENTE
+                
+                glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                glColor4f(WHITE_A);
+                h = h * 3;
+            }
+            
             // FRENTE
             
             glPushMatrix();
@@ -296,14 +309,10 @@ void draw_stand(int max_cubes, int size, int h, int z_size)
         
         height = height + h;
         
-        // DESENHAR UM CUBO TRANSPARENTE
-        
-        if ( i == max_cubes )
-            printf("X");
     }
     
+    
 }
-
 void drawWalls(GLint texture_n, int w_size, int block, int a )
 {
     
@@ -335,7 +344,7 @@ void drawWalls(GLint texture_n, int w_size, int block, int a )
             glTexCoord2f(0.0f, 1.0f);   glVertex3f( -(block * j), height, width );
             glEnd();
             glPopMatrix();
-
+            
         }
         height+=block;
     }
@@ -398,7 +407,7 @@ void display(void){
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(obsPini[0], obsPini[1], obsPini[2],obsP[0],obsP[1],obsP[2] , 0, 1, 0);
-   
+    
     
     // Desenho da cena
     
@@ -433,44 +442,44 @@ void teclasNotAscii(int key, int x, int y){
     }
     
     /*
-    // Limites em Y
-    
-    if (obsPini[1] > tam)
-    {
-        obsPini[1] = tam;
-        
-    }
-    if (obsPini[1] < -tam)
-    {
-        obsPini[1] = -tam;
-    }
-    
-    // Limites em X
-    
-    if (obsPini[0] > tam )
-    {
-        obsPini[0] = tam;
-    }
-    if (obsPini[0] < -tam )
-    {
-        obsPini[0] = -tam;
-    }
-    
-    // Limites em Z
-    
-    if (obsPini[2] > tam )
-    {
-        obsPini[2] = tam;
-    }
-    if (obsPini[2] < -tam )
-    {
-        obsPini[2] = -tam;
-    }
-    */
+     // Limites em Y
+     
+     if (obsPini[1] > tam)
+     {
+     obsPini[1] = tam;
+     
+     }
+     if (obsPini[1] < -tam)
+     {
+     obsPini[1] = -tam;
+     }
+     
+     // Limites em X
+     
+     if (obsPini[0] > tam )
+     {
+     obsPini[0] = tam;
+     }
+     if (obsPini[0] < -tam )
+     {
+     obsPini[0] = -tam;
+     }
+     
+     // Limites em Z
+     
+     if (obsPini[2] > tam )
+     {
+     obsPini[2] = tam;
+     }
+     if (obsPini[2] < -tam )
+     {
+     obsPini[2] = -tam;
+     }
+     */
     
     
     update_obs();
-
+    
 }
 
 void update_obs()
@@ -484,7 +493,7 @@ void keyboard(unsigned char key, int x, int y){
     
     
     switch (key) {
-                
+            
         case '+':
             angZoom-=2;
             glutPostRedisplay();

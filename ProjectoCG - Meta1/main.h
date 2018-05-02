@@ -23,6 +23,7 @@
 #define YELLOW	 1.0, 1.0, 0.0, 1.0
 #define GREEN    0.0, 1.0, 0.0, 1.0
 #define WHITE    1.0, 1.0, 1.0, 1.0
+#define WHITE_A  1.0, 1.0, 1.0, 0.3
 #define BLACK    0.0, 0.0, 0.0, 1.0
 #define BROWN    0.87, 0.72, 0.52, 1.0
 #define GRAY1    0.2, 0.2, 0.2, 1.0
@@ -63,13 +64,27 @@ GLfloat luzGlobalCor[4]={1.0,1.0,1.0,1.0};
 
 GLint   ligaLuz=1;
 
-GLfloat localCor[4] ={0.8,0.9,0.6,1.0};
+GLfloat localCor[4] ={0.2,0.3,0.2,1.0};
 GLfloat localCorDif[4] ={ 1.0, 0.6f, 0.25f, 1.0};
 GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 GLfloat localPos[4] ={xC/2, 10.0, xC/2, 0};
 GLfloat localAttCon =1.0;
 GLfloat localAttLin =0.05;
 GLfloat localAttQua =0.0;
+
+// --- Foco 1 -> Apontar para um quadro ----
+GLint    liga_foco = 1;
+
+GLfloat Pos1[]= {0, 1, -tam  };
+GLfloat	anguloFoco= 15.0;
+
+GLfloat Foco_direccao[]	= { 0, 0, -1   };	//=== X
+GLfloat Foco1_cor[]		= { YELLOW };	//=== Cor da luz 1
+GLfloat Foco_ak			= 1.0;
+GLfloat Foco_al			= 0.05f;
+GLfloat Foco_aq			= 0.0f;
+GLfloat Foco_Expon		= 2.0;		// Foco, SPOT_Exponent
+
 
 
 
@@ -105,6 +120,6 @@ void defineTextures();
 void update_obs();
 void init_lights();
 void draw_paintings(GLfloat widht, GLfloat height, GLfloat width, GLint text);
-void draw_stand(int a , int b, int h, int z_size);
+void draw_stand(int a , int b, int h, int z_size, int x);
 
 #endif /* main_h */

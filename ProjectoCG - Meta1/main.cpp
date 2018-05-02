@@ -110,11 +110,57 @@ void defineTextures()
 void drawScene()
 {
     
-    // Desenhar a sala
+    // ------- Desenhar a sala ------- \\
     
-    drawWalls();
+    // Parede -> Tras
+    
+    glPushMatrix();
+    glTranslatef(0.0f, 0.0f, -tam);
+    drawWalls(WALL,0);
+    glPopMatrix();
+    
+    // Parede -> Frente
+    
+    glPushMatrix();
+    glTranslatef(0.0f, 0.0f, tam);
+    drawWalls(WALL,0);
+    glPopMatrix();
+    
+    // Parede -> Direita
+    
+    glPushMatrix();
+    glRotatef(90, 0.0f, 1.0f, 0.0f);
+    glTranslatef(0.0f, 0.0f, tam);
+    drawWalls(WALL,0);
+    glPopMatrix();
+    
+    // Parede -> Esquerda
+    
+    glPushMatrix();
+    glRotatef(90, 0.0f, 1.0f, 0.0f);
+    glTranslatef(0.0f, 0.0f, -tam);
+    drawWalls(WALL,0);
+    glPopMatrix();
+    
+    // Parede -> Chao
+    
+    glPushMatrix();
+    glTranslatef(0, 0, -tam);
+    glRotatef(90, 1.0f, 0.0f, 0.0f);
+    drawWalls(WALL,1);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(0, 0, 0);
+    glRotatef(90, 1.0f, 0.0f, 0.0f);
+    drawWalls(WALL,1);
+    glPopMatrix();
+
+    
+    
+    /*
     
     //Posição dos quadros
+    
     
     glPushMatrix();
     glTranslatef(0.0f, 1.0f, -tam);
@@ -129,6 +175,7 @@ void drawScene()
     
     //draw_stand();
     
+     */
     
 }
 
@@ -141,6 +188,7 @@ void draw_paintings(GLfloat w, GLfloat h, GLfloat width, GLint texture_n)
 {
    
     
+    glColor4f(YELLOW);
     //FRENTE
     
     glPushMatrix();
@@ -214,81 +262,40 @@ void draw_paintings(GLfloat w, GLfloat h, GLfloat width, GLint texture_n)
     glPopMatrix();
 
     
-    
-    
-    
-    
 }
 
-void drawWalls()
+void drawWalls(GLint texture_n, int a )
 {
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,texture[0]);
     
-    //CHAO
-    glPushMatrix();
-    glNormal3f(0.0f, -1.0f, 0.0f);
-    glBegin(GL_POLYGON);
-    glTexCoord2f(1.0f,1.0f);        glVertex3f(  tam, 0, -tam );
-    glTexCoord2f(1.0f,0.0f);        glVertex3f(  tam, 0,  tam );
-    glTexCoord2f(0.0f,0.0f);     	glVertex3f( -tam, 0, tam );
-    glTexCoord2f(0.0f,1.0f);     	glVertex3f( -tam, 0, -tam );
-    glEnd();
-    glPopMatrix();
+    if(a == 0)
+        glColor4f(RED);
+    else
+        glColor4f(GRAY1);
+    
+    int i,j;
+    // Tamanho da parede = 5 * 2 -> 10x10
+    int wall_size = 5;
+    int width = 0.1;
+    int height = 0;
+    
+    for ( i = 1; i <= wall_size; i++)
+    {
+        for (j = 1; j <= wall_size; j++)
+        {
+            glPushMatrix();
+            glNormal3f(0.0f, 0.0f, 1.0f);
+            glBegin(GL_POLYGON);
+            glVertex3f(  (BRICK * j), height, width );
+            glVertex3f(  (BRICK * j),  (BRICK * i), width );
+            glVertex3f( -(BRICK * j),  (BRICK * i), width );
+            glVertex3f( -(BRICK * j), height, width );
+            glEnd();
+            glPopMatrix();
 
+        }
+        height+=2;
+    }
     
-    glBindTexture(GL_TEXTURE_2D,texture[1]);
-    
-    //TRAS
-    glPushMatrix();
-    glNormal3f(0.0f, 0.0f, 1.0f);
-    glBegin(GL_POLYGON);
-    glTexCoord2f(1.0f,1.0f);    	glVertex3f(  tam, 0, -tam );
-    glTexCoord2f(1.0f,0.0f);    	glVertex3f(  tam,  tam, -tam );
-    glTexCoord2f(0.0f,0.0f);     	glVertex3f( -tam,  tam, -tam );
-    glTexCoord2f(0.0f,1.0f);     	glVertex3f( -tam, 0, -tam );
-    glEnd();
-    glPopMatrix();
-    
-    //FRENTE
-    glPushMatrix();
-    glBegin(GL_POLYGON);
-    glTexCoord2f(1.0f,1.0f);        glVertex3f(  tam, 0, tam );
-    glTexCoord2f(1.0f,0.0f);        glVertex3f(  tam,  tam, tam );
-    glTexCoord2f(0.0f,0.0f);     	glVertex3f( -tam,  tam, tam );
-    glTexCoord2f(0.0f,1.0f);     	glVertex3f( -tam, 0, tam );
-    glEnd();
-    glPopMatrix();
-    
-    //DIREITA
-    glPushMatrix();
-    glBegin(GL_POLYGON);
-    glTexCoord2f(1.0f,1.0f);        glVertex3f( tam, 0, -tam );
-    glTexCoord2f(1.0f,0.0f);        glVertex3f( tam,  tam, -tam );
-    glTexCoord2f(0.0f,0.0f);     	glVertex3f( tam,  tam,  tam );
-    glTexCoord2f(0.0f,1.0f);     	glVertex3f( tam, 0,  tam );
-    glEnd();
-    glPopMatrix();
-    
-    //ESQUERDA
-    glPushMatrix();
-    glBegin(GL_POLYGON);
-    glTexCoord2f(1.0f,1.0f);        glVertex3f( -tam, 0, tam );
-    glTexCoord2f(1.0f,0.0f);        glVertex3f( -tam,  tam,  tam );
-    glTexCoord2f(0.0f,0.0f);     	glVertex3f( -tam,  tam, -tam );
-    glTexCoord2f(0.0f,1.0f);     	glVertex3f( -tam, 0, -tam );
-    glEnd();
-    glPopMatrix();
-    
-    //TOPO
-    glPushMatrix();
-    glBegin(GL_POLYGON);
-    glTexCoord2f(1.0f,1.0f);        glVertex3f(  tam,  tam,  tam );
-    glTexCoord2f(1.0f,0.0f);        glVertex3f(  tam,  tam, -tam );
-    glTexCoord2f(0.0f,0.0f);     	glVertex3f( -tam,  tam, -tam );
-    glTexCoord2f(0.0f,1.0f);     	glVertex3f( -tam,  tam,  tam );
-    glEnd();
-    glPopMatrix();
     
     
     

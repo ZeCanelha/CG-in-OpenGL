@@ -28,6 +28,9 @@
 #define GRAY1    0.2, 0.2, 0.2, 1.0
 #define GRAY2    0.93, 0.93, 0.93, 1.0
 #define PI		 3.14159
+#define BRICK    2   
+#define FLOOR    0
+#define WALL     1
 #define PAINT1   2
 #define PAINT2   3
 
@@ -93,7 +96,7 @@ GLfloat ang_inc = 0;
 
 void drawLata();
 void drawScene();
-void drawWalls();
+void drawWalls(GLint text, int a);
 void defineTextures();
 void update_obs();
 void init_lights();

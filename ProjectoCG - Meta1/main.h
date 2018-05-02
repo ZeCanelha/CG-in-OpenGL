@@ -28,11 +28,14 @@
 #define GRAY1    0.2, 0.2, 0.2, 1.0
 #define GRAY2    0.93, 0.93, 0.93, 1.0
 #define PI		 3.14159
-#define BRICK    2
+#define SIZE_W   2
+#define SIZE_P   2
+#define MAX_SIZE 5
 #define FLOOR    0
 #define WALL     1
 #define PAINT1   2
 #define PAINT2   3
+
 
 
 // Sistema Coordenadas + objectos
@@ -60,8 +63,8 @@ GLfloat luzGlobalCor[4]={1.0,1.0,1.0,1.0};
 
 GLint   ligaLuz=1;
 
-GLfloat localCor[4] ={0.6,0.6,0.6,1.0};
-GLfloat localCorDif[4] ={ 1.0, 0.6f, 0.15f, 1.0};
+GLfloat localCor[4] ={0.8,0.9,0.6,1.0};
+GLfloat localCorDif[4] ={ 1.0, 0.6f, 0.25f, 1.0};
 GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 GLfloat localPos[4] ={xC/2, 10.0, xC/2, 0};
 GLfloat localAttCon =1.0;
@@ -97,11 +100,11 @@ GLfloat ang_inc = 0;
 
 void drawLata();
 void drawScene();
-void drawWalls(GLint text, int a);
+void drawWalls(GLint texture_n, int w_size, int block, int a );
 void defineTextures();
 void update_obs();
 void init_lights();
 void draw_paintings(GLfloat widht, GLfloat height, GLfloat width, GLint text);
-void draw_stand();
+void draw_stand(int a , int b, int h, int z_size);
 
 #endif /* main_h */

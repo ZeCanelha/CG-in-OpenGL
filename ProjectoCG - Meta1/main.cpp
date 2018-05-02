@@ -34,6 +34,10 @@ void inicializa()
     
     // Inicializar a iluminação
     
+    init_lights();
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_COLOR_MATERIAL);
 
 
 
@@ -100,7 +104,7 @@ void defineTextures()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    imag.LoadBmpFile("Textures/pop.bmp");
+    imag.LoadBmpFile("Textures/parede.bmp");
     glTexImage2D(GL_TEXTURE_2D, 0, 3,
                  imag.GetNumCols(),
                  imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
@@ -119,7 +123,7 @@ void drawScene()
     glPushMatrix();
     glTranslatef(0.0f, 0.0f, -tam);
     glNormal3f(0.0f, 0.0f, 1.0f);
-    drawWalls(WALL,0);
+    drawWalls(-1,MAX_SIZE,SIZE_W,0);
     glPopMatrix();
     
     // Parede -> Frente
@@ -127,7 +131,7 @@ void drawScene()
     glPushMatrix();
     glTranslatef(0.0f, 0.0f, tam);
     glNormal3f(0.0f, 0.0f, -1.0f);
-    drawWalls(WALL,0);
+    drawWalls(-1,MAX_SIZE,SIZE_W,0);
     glPopMatrix();
     
     // Parede -> Direita
@@ -136,7 +140,7 @@ void drawScene()
     glRotatef(90, 0.0f, 1.0f, 0.0f);
     glTranslatef(0.0f, 0.0f, tam);
     glNormal3f(-1.0f, 0.0f, 0.0f);
-    drawWalls(WALL,0);
+    drawWalls(-1,MAX_SIZE,SIZE_W,0);
     glPopMatrix();
     
     // Parede -> Esquerda
@@ -145,7 +149,7 @@ void drawScene()
     glRotatef(90, 0.0f, 1.0f, 0.0f);
     glTranslatef(0.0f, 0.0f, -tam);
     glNormal3f(1.0f, 0.0f, 0.0f);
-    drawWalls(WALL,0);
+    drawWalls(-1,MAX_SIZE,SIZE_W,0);
     glPopMatrix();
     
     // Parede -> Chao
@@ -155,7 +159,7 @@ void drawScene()
     glTranslatef(0.0f, 0.0f, -tam);
     glRotatef(90, 1, 0, 0);
     glScalef(1.0f, 2.0f, 1.0f);
-    drawWalls(FLOOR,1);
+    drawWalls(-1,MAX_SIZE,SIZE_W,1);
     
     glPopMatrix();
     
@@ -166,121 +170,141 @@ void drawScene()
     glTranslatef(0.0f, tam, -tam);
     glRotatef(90, 1, 0, 0);
     glScalef(1.0f, 2.0f, 1.0f);
-    drawWalls(WALL,0);
+    drawWalls(-1,MAX_SIZE,SIZE_W,0);
     
     glPopMatrix();
     
     
-    
-    
-    /*
     
     //Posição dos quadros
     
     
     glPushMatrix();
-    glTranslatef(0.0f, 1.0f, -tam);
-    draw_paintings(8,6.5,0.2,PAINT1);
+    glTranslatef(0.0f, 1.0f, -tam+0.1);
+    drawWalls(PAINT1, 4, 2, 1);
     glPopMatrix();
     
     glPushMatrix();
     glRotated(90, 0.0f, 1.0f, 0.0f);
-    glTranslatef(0.0f, 1.0f, tam);
-    draw_paintings(8,6.5,0.2,PAINT2);
+    glTranslatef(0.0f, 1.0f, tam-0.1);
+    drawWalls(PAINT1, 4, 2, 1);
     glPopMatrix();
     
-    //draw_stand();
+    // POSICÃO DO STAND LATA
     
-    */
+    glPushMatrix();
+    glTranslatef(-tam+2.5, 0.0f, tam - 3);
+    draw_stand(4,1,1,1);
+    glPopMatrix();
+    
+    // BANCO FRONTAL
+    
+    glPushMatrix();
+    glTranslatef(0.0f, 0.0f, -tam + 3);
+    draw_stand(1, 4, 1, 1);
+    glPopMatrix();
+    
+    
+    
     
 }
 
-void draw_stand()
+void draw_stand(int max_cubes, int size, int h, int z_size)
 {
+    int i,j;
+    int height = 0;
+    
+    glColor4f(BLUE);
+    
+    for ( i = 1; i <= max_cubes; i++)
+    {
+        for (j = 1; j <= max_cubes; j++ )
+        {
+            // FRENTE
+            
+            glPushMatrix();
+            glNormal3f(0.0f, 0.0f, -1.0f);
+            glBegin(GL_POLYGON);
+            glVertex3f(  size, height, z_size );
+            glVertex3f(  size,  height + h, z_size );
+            glVertex3f( -size,  height + h, z_size );
+            glVertex3f( -size, height, z_size );
+            glEnd();
+            glPopMatrix();
+            
+            // TRAS
+            
+            glPushMatrix();
+            glNormal3f(0.0f, 0.0f, 1.0f);
+            glBegin(GL_POLYGON);
+            glVertex3f(  size, height, -z_size );
+            glVertex3f(  size,  height + h, -z_size );
+            glVertex3f( -size,  height + h, -z_size );
+            glVertex3f( -size, height, -z_size );
+            glEnd();
+            glPopMatrix();
+            
+            // CIMA
+            
+            glPushMatrix();
+            glNormal3f(0.0f, -1.0f, 0.0f);
+            glBegin(GL_POLYGON);
+            glVertex3f(  size, height + h, -z_size );
+            glVertex3f(  size, height + h,  z_size );
+            glVertex3f( -size, height + h,  z_size );
+            glVertex3f( -size, height + h, -z_size );
+            glEnd();
+            glPopMatrix();
+            
+            // BAIXO
+            
+            glPushMatrix();
+            glNormal3f(0.0f, 1.0f, 0.0f);
+            glBegin(GL_POLYGON);
+            glVertex3f(  size, height, -z_size );
+            glVertex3f(  size, height,  z_size );
+            glVertex3f( -size, height,  z_size );
+            glVertex3f( -size, height, -z_size );
+            glEnd();
+            glPopMatrix();
+            
+            // ESQUERDA
+            
+            glPushMatrix();
+            glNormal3f(1.0f, 0.0f, 0.0f);
+            glBegin(GL_POLYGON);
+            glVertex3f( -size, height,  z_size );
+            glVertex3f( -size, height + h,  z_size );
+            glVertex3f( -size, height + h, -z_size );
+            glVertex3f( -size, height, -z_size );
+            glEnd();
+            glPopMatrix();
+            
+            // DIREITA
+            
+            glPushMatrix();
+            glNormal3f(-1.0f, 0.0f, 0.0f);
+            glBegin(GL_POLYGON);
+            glVertex3f( size, height,  z_size );
+            glVertex3f( size, height + h,  z_size );
+            glVertex3f( size, height + h, -z_size );
+            glVertex3f( size, height, -z_size );
+            glEnd();
+            glPopMatrix();
+            
+        }
+        
+        height = height + h;
+        
+        // DESENHAR UM CUBO TRANSPARENTE
+        
+        if ( i == max_cubes )
+            printf("X");
+    }
     
 }
 
-void draw_paintings(GLfloat w, GLfloat h, GLfloat width, GLint texture_n)
-{
-   
-    
-    glColor4f(BLACK);
-    //FRENTE
-    
-    glPushMatrix();
-    glNormal3f(0.0f, 0.0f, 1.0f);
-    glBegin(GL_POLYGON);
-    glVertex3f(  w, 0, width );
-    glVertex3f(  w,  h, width );
-    glVertex3f( -w,  h, width );
-    glVertex3f( -w, 0, width );
-    glEnd();
-    glPopMatrix();
-    
-    //TRAS
-    
-    glPushMatrix();
-    glNormal3f(0.0f, 0.0f, -1.0f);
-    glBegin(GL_POLYGON);
-    glVertex3f(  w, 0, -width );
-    glVertex3f(  w,  h, -width );
-    glVertex3f( -w,  h, -width );
-    glVertex3f( -w, 0, -width );
-    glEnd();
-    glPopMatrix();
-    
-    // CIMA
-
-    glPushMatrix();
-    glNormal3f(0.0f, 1.0f, 0.0f);
-    glBegin(GL_POLYGON);
-    glVertex3f(  w, h, -width );
-    glVertex3f(  w, h,  width );
-    glVertex3f( -w, h,  width );
-    glVertex3f( -w, h, -width );
-    glEnd();
-    glPopMatrix();
-    
-    //BAIXO
-    
-    glPushMatrix();
-    glNormal3f(0.0f, -1.0f, 0.0f);
-    glBegin(GL_POLYGON);
-    glVertex3f(  w, 0, -width );
-    glVertex3f(  w, 0,  width );
-    glVertex3f( -w, 0,  width );
-    glVertex3f( -w, 0, -width );
-    glEnd();
-    glPopMatrix();
-    
-    // ESQUERDA
-    
-    glPushMatrix();
-    glNormal3f(-1.0f, 0.0f, 0.0f);
-    glBegin(GL_POLYGON);
-    glVertex3f( -w, 0,  width );
-    glVertex3f( -w, h,  width );
-    glVertex3f( -w, h, -width );
-    glVertex3f( -w, 0, -width );
-    glEnd();
-    glPopMatrix();
-    
-    // DIREITA
-    
-    glPushMatrix();
-    glNormal3f( 1.0f, 0.0f, 0.0f);
-    glBegin(GL_POLYGON);
-    glVertex3f( w, 0,  width );
-    glVertex3f( w, h,  width );
-    glVertex3f( w, h, -width );
-    glVertex3f( w, 0, -width );
-    glEnd();
-    glPopMatrix();
-
-    
-}
-
-void drawWalls(GLint texture_n, int a )
+void drawWalls(GLint texture_n, int w_size, int block, int a )
 {
     
     if(a == 0)
@@ -288,30 +312,38 @@ void drawWalls(GLint texture_n, int a )
     else
         glColor4f(GRAY1);
     
+    if ( texture_n != -1)
+    {
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texture[texture_n]);
+    }
+    
     int i,j;
     // Tamanho da parede = 5 * 2 -> 10x10
-    int wall_size = 5;
     int width = 0.1;
     int height = 0;
     
-    for ( i = 1; i <= wall_size; i++)
+    for ( i = 1; i <= w_size; i++)
     {
-        for (j = 1; j <= wall_size; j++)
+        for (j = 1; j <= w_size; j++)
         {
             glPushMatrix();
             glBegin(GL_POLYGON);
-            glVertex3f(  (BRICK * j), height, width );
-            glVertex3f(  (BRICK * j),  (BRICK * i), width );
-            glVertex3f( -(BRICK * j),  (BRICK * i), width );
-            glVertex3f( -(BRICK * j), height, width );
+            glTexCoord2f(1.0f, 1.0f);   glVertex3f(  (block * j), height, width );
+            glTexCoord2f(1.0f, 0.0f);   glVertex3f(  (block * j),  (block * i), width );
+            glTexCoord2f(0.0f, 0.0f);   glVertex3f( -(block * j),  (block * i), width );
+            glTexCoord2f(0.0f, 1.0f);   glVertex3f( -(block * j), height, width );
             glEnd();
             glPopMatrix();
 
         }
-        height+=2;
+        height+=block;
     }
     
-    
+    if ( texture_n != -1)
+    {
+        glDisable(GL_TEXTURE_2D);
+    }
     
     
     
@@ -345,6 +377,11 @@ void drawEixos()
 
 void display(void){
     
+    
+    if (ligaLuz)
+        glEnable(GL_LIGHT0);
+    else
+        glDisable(GL_LIGHT0);
     
     // Apaga ecran/profundidade
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -462,6 +499,10 @@ void keyboard(unsigned char key, int x, int y){
             break;
         case 'w':
             obsPini[1]=obsPini[1]+incVisao;
+            glutPostRedisplay();
+            break;
+        case 't':
+            ligaLuz=!ligaLuz;
             glutPostRedisplay();
             break;
         case 27:

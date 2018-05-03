@@ -13,6 +13,9 @@
 
 void inicializa()
 {
+    gluQuadricNormals(y, GLU_SMOOTH);
+    gluQuadricTexture(y, GL_TRUE);
+    
     // Define a clear color
     
     glClearColor(WHITE);
@@ -105,7 +108,7 @@ void defineTextures()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    imag.LoadBmpFile("Textures/parede.bmp");
+    imag.LoadBmpFile("Textures/can.bmp");
     glTexImage2D(GL_TEXTURE_2D, 0, 3,
                  imag.GetNumCols(),
                  imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
@@ -184,13 +187,29 @@ void drawScene()
     
     glPushMatrix();
     glTranslatef(0.0f, 1.0f, -tam+0.1);
-    drawWalls(PAINT1, 4, 2, 1);
+    drawWalls(WALL, 4, 2, 1);
     glPopMatrix();
     
     glPushMatrix();
     glRotated(90, 0.0f, 1.0f, 0.0f);
     glTranslatef(0.0f, 1.0f, tam-0.1);
-    drawWalls(PAINT1, 4, 2, 1);
+    drawWalls(WALL, 4, 2, 1);
+    glPopMatrix();
+    
+    
+    
+    // LATA
+     glPushMatrix();
+    glTranslatef(-tam + 2.6, 4.3f, tam - 3);
+    draw_can();
+    glPopMatrix();
+    
+    
+    // BANCO FRONTAL
+    
+    glPushMatrix();
+    glTranslatef(0.0f, 0.0f, -tam + 3);
+    draw_stand(1, 4, 1, 1, 0);
     glPopMatrix();
     
     // POSICÃO DO STAND LATA
@@ -200,16 +219,27 @@ void drawScene()
     draw_stand(4,1,1,1,1);
     glPopMatrix();
     
-    // BANCO FRONTAL
     
-    glPushMatrix();
-    glTranslatef(0.0f, 0.0f, -tam + 3);
-    draw_stand(1, 4, 1, 1, 0);
-    glPopMatrix();
+}
+
+void timer_func(int mili)
+{
+    rotate_inc+=0.5;
+    glutPostRedisplay();
+    glutTimerFunc(10, timer_func, 0);
     
+}
+
+
+void draw_can()
+{
     
-    
-    
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture[CAN]);
+    glRotatef(-90, 1.0f, 0.0f, 0.0f);
+    glRotatef(rotate_inc, 0.0f, 0.0f, 1.0f);
+    gluCylinder(y, 0.3, 0.3, 0.7 , 32, 32);
+    glDisable(GL_TEXTURE_2D);
 }
 
 void draw_stand(int max_cubes, int size, int h, int z_size, int stand)
@@ -535,6 +565,7 @@ int main(int argc, char** argv){
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(teclasNotAscii);
+    glutTimerFunc(10, timer_func, 0);
     
     glutMainLoop();
     

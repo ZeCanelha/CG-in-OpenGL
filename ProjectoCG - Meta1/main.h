@@ -34,8 +34,7 @@
 #define MAX_SIZE 5
 #define FLOOR    0
 #define WALL     1
-#define PAINT1   2
-#define PAINT2   3
+#define CAN      2
 
 
 
@@ -47,9 +46,10 @@ GLfloat		xC=10.0, yC=10.0, zC=10.0;		//.. Mundo  (unidades mundo)
 
 GLfloat tam = 10;
 GLint camera_no = 0;
+GLUquadricObj * y =  gluNewQuadric();
 
+GLfloat rotate_inc = 0;
 //Textures
-
 
 GLuint texture[10];
 GLuint  tex;
@@ -121,5 +121,7 @@ void update_obs();
 void init_lights();
 void draw_paintings(GLfloat widht, GLfloat height, GLfloat width, GLint text);
 void draw_stand(int a , int b, int h, int z_size, int x);
+void draw_can();
+void timer_func(int a);
 
 #endif /* main_h */

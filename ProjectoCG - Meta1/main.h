@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <math.h>
 
+
 #define BLUE     0.0, 0.0, 1.0, 1.0
 #define RED		 1.0, 0.0, 0.0, 1.0
 #define YELLOW	 1.0, 1.0, 0.0, 1.0
@@ -28,6 +29,7 @@
 #define BROWN    0.87, 0.72, 0.52, 1.0
 #define GRAY1    0.2, 0.2, 0.2, 1.0
 #define GRAY2    0.93, 0.93, 0.93, 1.0
+#define ORANGE   1.0, 0.6, 0.25, 1.0
 #define PI		 3.14159
 #define SIZE_W   2
 #define SIZE_P   2
@@ -35,6 +37,8 @@
 #define FLOOR    0
 #define WALL     1
 #define CAN      2
+
+#define MAX_PARTICLES 10000
 
 
 
@@ -44,14 +48,39 @@ GLfloat		xC=10.0, yC=10.0, zC=10.0;		//.. Mundo  (unidades mundo)
 
 //Variáveis globais
 
+int loop;
+float slowdown = 0.95;
+float speed = 0.0;
+bool isRaining;
+
+
+typedef struct
+{
+    float   size;
+    float   life;
+    float   fade;
+    float   r,g,b;
+    float   x,y,z;
+    float   vel;
+    float   gravity;
+}Particle;
+
+Particle particles[MAX_PARTICLES];
+
 GLfloat tam = 10;
 GLint camera_no = 0;
 GLUquadricObj * y =  gluNewQuadric();
 
+GLfloat s_height = 4;
+
+bool lift = false;
+bool lift_d = false;
+
 GLfloat rotate_inc = 0;
+GLfloat rotate_inc_r = 0;
 //Textures
 
-GLuint texture[10];
+GLuint texture[20];
 GLuint  tex;
 RgbImage imag;
 
@@ -94,7 +123,7 @@ GLfloat Foco_Expon		= 2.0;		// Foco, SPOT_Exponent
 GLfloat xObs = 0, yObs = 5, zObs = 0;
 
 
-GLfloat  rVisao=8, aVisao=0.5*PI, incVisao=0.15;
+GLfloat  rVisao=8, aVisao=0.5*PI, incVisao=0.45;
 
 GLfloat  obsPini[] ={xObs,yObs, zObs};
 
@@ -121,7 +150,13 @@ void update_obs();
 void init_lights();
 void draw_paintings(GLfloat widht, GLfloat height, GLfloat width, GLint text);
 void draw_stand(int a , int b, int h, int z_size, int x);
-void draw_can();
+void draw_can(int);
 void timer_func(int a);
+void draw_sala();
+void draw_outside_wall();
+void draw_window();
+void init_particles(int );
+void draw_rain();
+
 
 #endif /* main_h */

@@ -37,16 +37,20 @@
 #define FLOOR    0
 #define WALL     1
 #define CAN      2
+#define CAN2     5
+#define CAN3     6
 
 #define MAX_PARTICLES 10000
 
-
+GLfloat tam = 10;
 
 // Sistema Coordenadas + objectos
 GLint		wScreen=800, hScreen=600;		//.. janela (pixeis)
 GLfloat		xC=10.0, yC=10.0, zC=10.0;		//.. Mundo  (unidades mundo)
 
 //Variáveis globais
+
+
 
 int loop;
 float slowdown = 0.95;
@@ -67,14 +71,44 @@ typedef struct
 
 Particle particles[MAX_PARTICLES];
 
-GLfloat tam = 10;
+
 GLint camera_no = 0;
 GLUquadricObj * y =  gluNewQuadric();
 
-GLfloat s_height = 4;
+GLfloat s_height[3] = {4,4,4};
+
+// Stand azul
 
 bool lift = false;
 bool lift_d = false;
+
+// Stand meio
+
+bool lift_1 = false;
+bool lift_d_1 = false;
+
+// Stand canto
+
+bool lift_2 = false;
+bool lift_d_2 = false;
+
+
+// BONECO
+
+GLuint tuxedo1Textures[2];
+int flag = 1;
+int vBB1 = 9.5, vBB2 = 0.0, vBB3 = 0 ,
+vBB4 = 6.5, vBB5 = 0.0, vBB6 = 0,
+vBB7 = 6.5, vBB8 = 5.0, vBB9 = 0,
+vBB10 = 9.5,vBB11 = 5.0,vBB12 = 0;
+
+int vCB1 = 9.5, vCB2 = 5.0, vCB3 = 0 ,
+vCB4 = 6.5, vCB5 = 5.0, vCB6 = 0,
+vCB7 = 6.5, vCB8 = 7.0, vCB9 = 0,
+vCB10 = 9.5,vCB11 = 7.0,vCB12 = 0;
+
+int cabecaBonecoX = -8, cabecaBonecoY = 6.0, cabecaBonecoZ = -8;
+
 
 GLfloat rotate_inc = 0;
 GLfloat rotate_inc_r = 0;
@@ -92,28 +126,6 @@ GLfloat luzGlobalCor[4]={1.0,1.0,1.0,1.0};
 // --- Lampada dentro da sala ---
 
 GLint   ligaLuz=1;
-
-GLfloat localCor[4] ={0.2,0.3,0.2,1.0};
-GLfloat localCorDif[4] ={ 1.0, 0.6f, 0.25f, 1.0};
-GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-GLfloat localPos[4] ={xC/2, 10.0, xC/2, 0};
-GLfloat localAttCon =1.0;
-GLfloat localAttLin =0.05;
-GLfloat localAttQua =0.0;
-
-// --- Foco 1 -> Apontar para um quadro ----
-GLint    liga_foco = 1;
-
-GLfloat Pos1[]= {0, 1, -tam  };
-GLfloat	anguloFoco= 15.0;
-
-GLfloat Foco_direccao[]	= { 0, 0, -1   };	//=== X
-GLfloat Foco1_cor[]		= { YELLOW };	//=== Cor da luz 1
-GLfloat Foco_ak			= 1.0;
-GLfloat Foco_al			= 0.05f;
-GLfloat Foco_aq			= 0.0f;
-GLfloat Foco_Expon		= 2.0;		// Foco, SPOT_Exponent
-
 
 
 
@@ -149,14 +161,17 @@ void defineTextures();
 void update_obs();
 void init_lights();
 void draw_paintings(GLfloat widht, GLfloat height, GLfloat width, GLint text);
-void draw_stand(int a , int b, int h, int z_size, int x);
-void draw_can(int);
+void draw_stand(int a , int b, int h, int z_size, int x, int stand_n);
+void draw_can(int,int);
 void timer_func(int a);
 void draw_sala();
 void draw_outside_wall();
 void draw_window();
 void init_particles(int );
 void draw_rain();
+void drawHeads();
+void drawTuxedos();
+
 
 
 #endif /* main_h */

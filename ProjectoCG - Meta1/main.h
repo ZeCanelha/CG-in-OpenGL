@@ -107,7 +107,7 @@ vCB4 = 6.5, vCB5 = 5.0, vCB6 = 0,
 vCB7 = 6.5, vCB8 = 7.0, vCB9 = 0,
 vCB10 = 9.5,vCB11 = 7.0,vCB12 = 0;
 
-int cabecaBonecoX = -8, cabecaBonecoY = 6.0, cabecaBonecoZ = -8;
+int cabecaBonecoX = 3, cabecaBonecoY = 6.0, cabecaBonecoZ = -8;
 
 
 GLfloat rotate_inc = 0;

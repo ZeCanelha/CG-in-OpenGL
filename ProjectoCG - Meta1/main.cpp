@@ -984,21 +984,122 @@ void display(void){
 void teclasNotAscii(int key, int x, int y){
     
     if(key == GLUT_KEY_UP) {
-        obsPini[0]=obsPini[0]+incVisao*cos(aVisao);
-        obsPini[2]=obsPini[2]-incVisao*sin(aVisao);
+        if(flag == 1){
+            obsPini[0]=obsPini[0]+incVisao*cos(aVisao);
+            obsPini[2]=obsPini[2]-incVisao*sin(aVisao);
+            update_obs();
+        }
+        if(flag == 0){
+            // obsPini[0]+=0.005;
+                        obsPini[0]+=1;
+                //obsP[0] =obsPini[0]+rVisao*cos(aVisao);
+                //obsP[2] =obsPini[2]+rVisao*sin(aVisao);
+                // glutPostRedisplay();
+                
+                //  vBB1 +=0.0005;
+                vBB3 -=0.00005;
+                vCB3 -=0.00005;
+                // vBB4 +=0.0005;
+                vBB6 -=0.00005;
+                vCB6 -=0.00005;
+                // vBB7 +=0.0005;
+                vBB9 -= 0.00005;
+                vCB9 -= 0.00005;
+                // vBB10 +=0.0005;
+                vBB12 -= 0.00005;
+                vCB12 -= 0.00005;
+                cabecaBonecoZ-=0.00005;
+            
+            
+        }
     }
     if(key == GLUT_KEY_DOWN) {
-        obsPini[0]=obsPini[0]-incVisao*cos(aVisao);
-        obsPini[2]=obsPini[2]+incVisao*sin(aVisao);
+        if(flag == 1){
+            obsPini[0]=obsPini[0]-incVisao*cos(aVisao);
+            obsPini[2]=obsPini[2]+incVisao*sin(aVisao);
+            update_obs();
+        }
+        if(flag == 0){
+            // obsPini[0]+=0.005;
+            
+            obsPini[2]-=1;
+            //  vBB1 +=0.0005;
+            vBB1 -=0.00005;
+            vCB1 -=0.00005;
+            // vBB4 +=0.0005;
+            vBB4 -=0.00005;
+            vCB4 -=0.00005;
+            // vBB7 +=0.0005;
+            vBB7 -= 0.00005;
+            vCB7 -= 0.00005;
+            // vBB10 +=0.0005;
+            vBB10 -= 0.00005;
+            vCB10 -= 0.00005;
+            cabecaBonecoZ-=0.00005;
+            
+            
+        }
     }
     if(key == GLUT_KEY_LEFT) {
-        aVisao = (aVisao + 0.3) ;
+        
+        if(flag == 1)aVisao = (aVisao + 0.3) ;update_obs();
+        if(flag == 0){
+            obsP[0] = -7;
+            obsP[1] = 6.0;
+            obsP[2] = 8;
+            if((vBB1 - vBB4) == -3){
+                obsPini[0]+=1;
+                
+                
+                //  vBB1 +=0.0005;
+                vBB1 +=0.00005;
+                vCB1 +=0.00005;
+                // vBB4 +=0.0005;
+                vBB4 +=0.00005;
+                vCB4 +=0.00005;
+                // vBB7 +=0.0005;
+                vBB7 += 0.00005;
+                vCB7 += 0.00005;
+                // vBB10 +=0.0005;
+                vBB10 += 0.00005;
+                vCB10 += 0.00005;
+                
+                
+                
+                
+                cabecaBonecoX+=0.00005;
+            }
+            
+        }
+        
         
     }
     if(key == GLUT_KEY_RIGHT) {
-        aVisao = (aVisao - 0.3) ;
+        if(flag == 1)aVisao = (aVisao - 0.3) ;update_obs();
+        if(flag == 0){
+            // obsPini[0]+=0.005;
+            
+            obsPini[0]+=1;
+            
+            //  vBB1 +=0.0005;
+            vBB1 -=0.00005;
+            vCB1 -=0.00005;
+            // vBB4 +=0.0005;
+            vBB4 -=0.00005;
+            vCB4 -=0.00005;
+            // vBB7 +=0.0005;
+            vBB7 -= 0.00005;
+            vCB7 -= 0.00005;
+            // vBB10 +=0.0005;
+            vBB10 -= 0.00005;
+            vCB10 -= 0.00005;
+            
+            cabecaBonecoX-=0.00005;
+            
+        }
+        
+        
     }
-    
     /*
      // Limites em Y
      
@@ -1036,7 +1137,7 @@ void teclasNotAscii(int key, int x, int y){
      */
     
     
-    update_obs();
+//    update_obs();
     
 }
 
@@ -1051,6 +1152,23 @@ void keyboard(unsigned char key, int x, int y){
     
     
     switch (key) {
+            
+        case ',':
+            flag = 1;
+            break;
+        case 'm':
+            obsPini[0] = cabecaBonecoX;
+            obsPini[1] = cabecaBonecoY;
+            obsPini[2] = cabecaBonecoZ;
+            obsP[0] = -8;
+            obsP[1] = 6.0;
+            obsP[2] = -7;
+            flag = 0;
+            
+            //treeSixty = 0;
+            
+            glutPostRedisplay();
+            break;
             
         case '+':
             angZoom-=2;

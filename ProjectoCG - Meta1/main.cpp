@@ -192,6 +192,39 @@ void defineTextures()
                  imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
                  imag.ImageData());
     
+    /* Landscape  */
+    
+    glGenTextures(1, &texture[3]);
+    glBindTexture(GL_TEXTURE_2D, texture[3]);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    imag.LoadBmpFile("landscape.bmp");
+    glTexImage2D(GL_TEXTURE_2D, 0, 3,
+                 imag.GetNumCols(),
+                 imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+                 imag.ImageData());
+    
+    
+    
+    /* Janela  */
+    
+    glGenTextures(1, &texture[4]);
+    glBindTexture(GL_TEXTURE_2D, texture[4]);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    imag.LoadBmpFile("janela.bmp");
+    glTexImage2D(GL_TEXTURE_2D, 0, 3,
+                 imag.GetNumCols(),
+                 imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+                 imag.ImageData());
+
+    
     /* LATA 2 */
     
     glGenTextures(1, &texture[5]);
@@ -224,51 +257,20 @@ void defineTextures()
                  imag.ImageData());
 
     
-    /* Landscape  */
-    
-    glGenTextures(1, &texture[3]);
-    glBindTexture(GL_TEXTURE_2D, texture[3]);
+    glGenTextures(1, &texture[7]);
+    glBindTexture(GL_TEXTURE_2D, texture[7]);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    imag.LoadBmpFile("landscape.bmp");
-    glTexImage2D(GL_TEXTURE_2D, 0, 3,
-                 imag.GetNumCols(),
-                 imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
-                 imag.ImageData());
-
-    
-    /* Landscape  */
-    
-    glGenTextures(1, &texture[3]);
-    glBindTexture(GL_TEXTURE_2D, texture[3]);
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    imag.LoadBmpFile("landscape.bmp");
+    imag.LoadBmpFile("comandos.bmp");
     glTexImage2D(GL_TEXTURE_2D, 0, 3,
                  imag.GetNumCols(),
                  imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
                  imag.ImageData());
     
-    /* Janela  */
     
-    glGenTextures(1, &texture[4]);
-    glBindTexture(GL_TEXTURE_2D, texture[4]);
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    imag.LoadBmpFile("janela.bmp");
-    glTexImage2D(GL_TEXTURE_2D, 0, 3,
-                 imag.GetNumCols(),
-                 imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
-                 imag.ImageData());
     
     //------------------------------------------- FATO
     // -- Player 1
@@ -467,9 +469,9 @@ void draw_window()
     
     glBegin(GL_QUADS);
     glVertex3f(0, 0, 0);
-    glVertex3f(0, 5, 0);
-    glVertex3f(8, 5, 0);
-    glVertex3f(8, 0, 0);
+    glVertex3f(0, 4.8, 0);
+    glVertex3f(7.8, 4.8, 0);
+    glVertex3f(7.8, 0, 0);
     glEnd();
     
     glColor4f(0, 0, 0, 1);
@@ -535,6 +537,14 @@ void drawScene()
     
     draw_rain();
     
+    // Comandos
+    
+    glPushMatrix();
+    glTranslatef(tam-0.1, (tam/2 -2 ), tam/2);
+    glRotatef(90, 0, 1, 0);
+    draw_painting(2.5,5,0.1);
+    glPopMatrix();
+    
     
     glPushMatrix();
     glRotatef(90, 0, 1, 0);
@@ -545,14 +555,21 @@ void drawScene()
     
     glPushMatrix();
     
-    glTranslatef(0, 0, 30);
+    // Janela
+    
+    glTranslatef(0, 0, 25);
     draw_outside_wall();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(-5, 0, 0);
     glRotatef(90, 0, 1, 0);
     draw_outside_wall();
     glPopMatrix();
     
     glPushMatrix();
-    glTranslatef(0, 0, 30);
+    
+    glTranslatef(5, 0, 0);
     glRotatef(-90, 0, 1, 0);
     draw_outside_wall();
     glPopMatrix();
@@ -635,6 +652,92 @@ void drawScene()
     
 }
 
+
+void draw_painting(int w, int h, int width)
+{
+    
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture[7]);
+
+    
+    glPushMatrix();
+    glNormal3f(0.0f, 0.0f, 1.0f);
+    glBegin(GL_POLYGON);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(  w, 0, width );
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(  w,  h, width );
+    glTexCoord2f(1.0f, 1.0f); glVertex3f( -w,  h, width );
+    glTexCoord2f(1.0f, 0.0f); glVertex3f( -w, 0, width );
+    glEnd();
+    glPopMatrix();
+    
+    //TRAS
+    
+    glColor4f(BROWN);
+    glPushMatrix();
+    glNormal3f(0.0f, 0.0f, -1.0f);
+    glBegin(GL_POLYGON);
+    glVertex3f(  w, 0, -width );
+    glVertex3f(  w,  h, -width );
+    glVertex3f( -w,  h, -width );
+    glVertex3f( -w, 0, -width );
+    glEnd();
+    glPopMatrix();
+    
+    // CIMA
+    
+    glPushMatrix();
+    glNormal3f(0.0f, 1.0f, 0.0f);
+    glBegin(GL_POLYGON);
+    glVertex3f(  w, h, -width );
+    glVertex3f(  w, h,  width );
+    glVertex3f( -w, h,  width );
+    glVertex3f( -w, h, -width );
+    glEnd();
+    glPopMatrix();
+    
+    //BAIXO
+    
+    glPushMatrix();
+    glNormal3f(0.0f, -1.0f, 0.0f);
+    glBegin(GL_POLYGON);
+    glVertex3f(  w, 0, -width );
+    glVertex3f(  w, 0,  width );
+    glVertex3f( -w, 0,  width );
+    glVertex3f( -w, 0, -width );
+    glEnd();
+    glPopMatrix();
+    
+    // ESQUERDA
+    
+    glPushMatrix();
+    glNormal3f(-1.0f, 0.0f, 0.0f);
+    glBegin(GL_POLYGON);
+    glVertex3f( -w, 0,  width );
+    glVertex3f( -w, h,  width );
+    glVertex3f( -w, h, -width );
+    glVertex3f( -w, 0, -width );
+    glEnd();
+    glPopMatrix();
+    
+    // DIREITA
+    
+    glPushMatrix();
+    glNormal3f( 1.0f, 0.0f, 0.0f);
+    glBegin(GL_POLYGON);
+    glVertex3f( w, 0,  width );
+    glVertex3f( w, h,  width );
+    glVertex3f( w, h, -width );
+    glVertex3f( w, 0, -width );
+    glEnd();
+    glPopMatrix();
+    
+    
+    glDisable(GL_TEXTURE);
+    
+   
+}
+
+
 void lift_func(int stand)
 {
     if (s_height[stand] > 5.5)
@@ -712,6 +815,25 @@ void timer_func(int mili)
         lift_d_func(2);
         
     }
+    
+    if ( fog )
+    {
+        density+=0.001;
+        glFogfv(GL_FOG_COLOR, nevoeiroCor); //Cor do nevoeiro
+        //glFogi(GL_FOG_MODE, GL_LINEAR); //Equa‹o do nevoeiro - linear
+        //Outras opcoes: GL_EXP, GL_EXP2
+        glFogf(GL_FOG_START, 1); // Dist‰ncia a que ter‡ in’cio o nevoeiro
+        glFogf(GL_FOG_END, 5); // Dist‰ncia a que o nevoeiro terminar‡
+        glFogCoordf(22);
+        glFogf (GL_FOG_DENSITY, density); //Densidade do nevoeiro - n‹o se especifica quando temos "nevoeiro linear"
+        
+        if ( density >= 0.35 )
+        {
+            glDisable(GL_FOG);
+            density = 0.00;
+        }
+        
+    }
 
 
     
@@ -720,6 +842,14 @@ void timer_func(int mili)
     
 }
 
+
+
+void desenhaTexto(char *string, GLfloat x, GLfloat y, GLfloat z)
+{
+    glRasterPos3f(x,y,z);
+    while(*string)
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_10, *string++);
+}
 
 void draw_can(int a, int text_n)
 {
@@ -745,7 +875,7 @@ void draw_stand(int max_cubes, int size, int h, int z_size, int stand, int stand
     int height = 0;
     bool cima = false;
     
-    glColor4f(BLUE);
+    glColor4f(0.18,0.340,0.18,1.0);
     
     for ( i = 1; i <= max_cubes; i++)
     {
@@ -971,9 +1101,13 @@ void display(void){
     // Desenho da cena
     
     drawScene();
-    glPopMatrix();
     
     
+    glColor3f(1,0,0);
+    sprintf(texto, "%d", noite);
+    desenhaTexto(texto,tam-0.15,(tam/2 - 0.8 ),tam/2 + 0.6);
+    sprintf(texto, "%d", ligaLuz);
+    desenhaTexto(texto,tam-0.15,(tam/2 -1.3), tam/2 + 0.6);
     
     
     // Substituir pelo novo buffer
@@ -1169,7 +1303,11 @@ void keyboard(unsigned char key, int x, int y){
             
             glutPostRedisplay();
             break;
-            
+        
+        case 'f':
+            glEnable(GL_FOG);
+            fog = true;
+            break;
         case '+':
             angZoom-=2;
             glutPostRedisplay();

@@ -77,6 +77,12 @@ GLUquadricObj * y =  gluNewQuadric();
 
 GLfloat s_height[3] = {4,4,4};
 
+// Nevoeiro
+
+GLfloat nevoeiroCor[] = {0.75, 0.75, 0.75, 1.0}; //definicao da cor do nevoeiro
+GLfloat density = 0.05;
+bool fog = false;
+
 // Stand azul
 
 bool lift = false;
@@ -125,7 +131,7 @@ GLfloat luzGlobalCor[4]={1.0,1.0,1.0,1.0};
 
 // --- Lampada dentro da sala ---
 
-GLint   ligaLuz=1;
+GLint   ligaLuz=0;
 
 
 
@@ -148,7 +154,7 @@ GLfloat x_inc = 0;
 GLfloat ang_inc = 0;
 
 
-
+char     texto[30];
 
 
 
@@ -160,7 +166,6 @@ void drawWalls(GLint texture_n, int w_size, int block, int a );
 void defineTextures();
 void update_obs();
 void init_lights();
-void draw_paintings(GLfloat widht, GLfloat height, GLfloat width, GLint text);
 void draw_stand(int a , int b, int h, int z_size, int x, int stand_n);
 void draw_can(int,int);
 void timer_func(int a);
@@ -171,7 +176,7 @@ void init_particles(int );
 void draw_rain();
 void drawHeads();
 void drawTuxedos();
-
-
+void draw_painting(int , int , int );
+void desenhaTexto(char *string, GLfloat x, GLfloat y, GLfloat z);
 
 #endif /* main_h */

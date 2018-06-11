@@ -1114,7 +1114,6 @@ void display(void){
     glutSwapBuffers();
 }
 
-
 void teclasNotAscii(int key, int x, int y){
     
     if(key == GLUT_KEY_UP) {
@@ -1125,24 +1124,24 @@ void teclasNotAscii(int key, int x, int y){
         }
         if(flag == 0){
             // obsPini[0]+=0.005;
-                        obsPini[0]+=1;
-                //obsP[0] =obsPini[0]+rVisao*cos(aVisao);
-                //obsP[2] =obsPini[2]+rVisao*sin(aVisao);
-                // glutPostRedisplay();
-                
-                //  vBB1 +=0.0005;
-                vBB3 -=0.00005;
-                vCB3 -=0.00005;
-                // vBB4 +=0.0005;
-                vBB6 -=0.00005;
-                vCB6 -=0.00005;
-                // vBB7 +=0.0005;
-                vBB9 -= 0.00005;
-                vCB9 -= 0.00005;
-                // vBB10 +=0.0005;
-                vBB12 -= 0.00005;
-                vCB12 -= 0.00005;
-                cabecaBonecoZ-=0.00005;
+            obsPini[0]-=1;
+            //obsP[0] =obsPini[0]+rVisao*cos(aVisao);
+            //obsP[2] =obsPini[2]+rVisao*sin(aVisao);
+            // glutPostRedisplay();
+            
+            //vBB1 -=0.0005;
+            vBB3 -=1.5;
+            vCB3 -=1.5;
+            //vBB4 -=0.0005;
+            vBB6 -=1.5;
+            vCB6 -=1.5;
+            //vBB7 -=0.0005;
+            vBB9 -= 1.5;
+            vCB9 -= 1.5;
+            //vBB10 -=0.0005;
+            vBB12 -= 1.5;
+            vCB12 -= 1.5;
+            cabecaBonecoX-=1;
             
             
         }
@@ -1155,21 +1154,24 @@ void teclasNotAscii(int key, int x, int y){
         }
         if(flag == 0){
             // obsPini[0]+=0.005;
+            obsPini[0]+=1;
+            //obsP[0] =obsPini[0]+rVisao*cos(aVisao);
+            //obsP[2] =obsPini[2]+rVisao*sin(aVisao);
+            // glutPostRedisplay();
             
-            obsPini[2]-=1;
-            //  vBB1 +=0.0005;
-            vBB1 -=0.00005;
-            vCB1 -=0.00005;
-            // vBB4 +=0.0005;
-            vBB4 -=0.00005;
-            vCB4 -=0.00005;
-            // vBB7 +=0.0005;
-            vBB7 -= 0.00005;
-            vCB7 -= 0.00005;
-            // vBB10 +=0.0005;
-            vBB10 -= 0.00005;
-            vCB10 -= 0.00005;
-            cabecaBonecoZ-=0.00005;
+            //vBB1 -=0.0005;
+            vBB3 +=1;
+            vCB3 +=1;
+            //vBB4 -=0.0005;
+            vBB6 +=1;
+            vCB6 +=1;
+            //vBB7 -=0.0005;
+            vBB9 += 1;
+            vCB9 += 1;
+            //vBB10 -=0.0005;
+            vBB12 += 1;
+            vCB12 += 1;
+            cabecaBonecoX+=1;
             
             
         }
@@ -1178,12 +1180,41 @@ void teclasNotAscii(int key, int x, int y){
         
         if(flag == 1)aVisao = (aVisao + 0.3) ;update_obs();
         if(flag == 0){
-            obsP[0] = -7;
-            obsP[1] = 6.0;
-            obsP[2] = 8;
-            if((vBB1 - vBB4) == -3){
-                obsPini[0]+=1;
+            if((vBB1-vBB4) ==3){
                 
+                obsP[0] = -7;
+                obsP[1] = 6.0;
+                anguloVisao+=0.5;
+                obsP[2] = anguloVisao;
+                
+                // obsPini[0]+=0.005;
+                
+                obsPini[2]+=1;
+                
+                //  vBB1 +=0.0005;
+                vBB1 -=0.00005;
+                vCB1 -=0.00005;
+                // vBB4 +=0.0005;
+                vBB4 -=0.00005;
+                vCB4 -=0.00005;
+                // vBB7 +=0.0005;
+                vBB7 -= 0.00005;
+                vCB7 -= 0.00005;
+                // vBB10 +=0.0005;
+                vBB10 -= 0.00005;
+                vCB10 -= 0.00005;
+                
+                cabecaBonecoZ+=0.00015;
+            }else{
+                
+                obsP[0] = -7;
+                obsP[1] = 6.0;
+                anguloVisao+=0.5;
+                obsP[2] = anguloVisao;
+                
+                // obsPini[0]+=0.005;
+                
+                obsPini[2]+=1;
                 
                 //  vBB1 +=0.0005;
                 vBB1 +=0.00005;
@@ -1198,11 +1229,11 @@ void teclasNotAscii(int key, int x, int y){
                 vBB10 += 0.00005;
                 vCB10 += 0.00005;
                 
+                cabecaBonecoZ+=0.00015;
                 
-                
-                
-                cabecaBonecoX+=0.00005;
             }
+            
+            
             
         }
         
@@ -1211,24 +1242,32 @@ void teclasNotAscii(int key, int x, int y){
     if(key == GLUT_KEY_RIGHT) {
         if(flag == 1)aVisao = (aVisao - 0.3) ;update_obs();
         if(flag == 0){
+            
+            obsP[0] = -7;
+            obsP[1] = 6.0;
+            anguloVisao-=0.5;
+            obsP[2] = anguloVisao;
+            
             // obsPini[0]+=0.005;
             
-            obsPini[0]+=1;
+            obsPini[2]-=1;
             
             //  vBB1 +=0.0005;
-            vBB1 -=0.00005;
-            vCB1 -=0.00005;
+            vBB1 +=1;
+            vCB1 +=1;
             // vBB4 +=0.0005;
-            vBB4 -=0.00005;
-            vCB4 -=0.00005;
+            vBB4 +=1;
+            vCB4 +=1;
             // vBB7 +=0.0005;
-            vBB7 -= 0.00005;
-            vCB7 -= 0.00005;
+            vBB7 += 1;
+            vCB7 += 1;
             // vBB10 +=0.0005;
-            vBB10 -= 0.00005;
-            vCB10 -= 0.00005;
+            vBB10 += 1;
+            vCB10 +=1;
             
-            cabecaBonecoX-=0.00005;
+            cabecaBonecoZ-=1;
+            
+            
             
         }
         
@@ -1271,7 +1310,7 @@ void teclasNotAscii(int key, int x, int y){
      */
     
     
-//    update_obs();
+    //    update_obs();
     
 }
 

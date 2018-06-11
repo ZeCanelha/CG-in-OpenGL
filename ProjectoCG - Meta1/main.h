@@ -141,7 +141,7 @@ GLint   ligaLuz=0;
 GLfloat xObs = 0, yObs = 5, zObs = 0;
 
 
-GLfloat  rVisao=8, aVisao=0.5*PI, incVisao=0.45;
+GLfloat  rVisao=8, aVisao=0.5*PI, incVisao=0.45, anguloVisao = -6.5;
 
 GLfloat  obsPini[] ={xObs,yObs, zObs};
 
